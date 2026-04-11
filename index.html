@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Francisco Housing Explorer (2007-2024)</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .author {
+            color: #3498db;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 8px;
+        }
+        p {
+            line-height: 1.7;
+            color: #555;
+        }
+        .description-box {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+        .features-list li {
+            background-color: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .features-list li strong {
+            color: #2c3e50;
+        }
+        .data-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .data-info a {
+            color: #3498db;
+        }
+        .viz-link {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .viz-link:hover {
+            background-color: #2980b9;
+        }
+        .viz-link.disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        .status.in-progress {
+            background-color: #f39c12;
+            color: white;
+        }
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1>San Francisco Housing Explorer (2007-2024)</h1>
+    <p class="subtitle">An Interactive Dashboard for Exploring SF Housing Prices</p>
+    <p class="author">By Julian Williams-Goldberg | CS360 Data Visualization | University of San Francisco</p>
+
+    <div class="description-box">
+        <h2>Project Description</h2>
+        <p>
+            As a transfer student who arrived at USF without ever visiting San Francisco, I was shocked by the housing prices in the area. This project creates an interactive visualization dashboard that allows users to explore San Francisco housing price data from 2007 to 2024, providing insights into how prices have changed over time across different neighborhoods.
+        </p>
+        <p>
+            The dashboard enables temporal exploration of price trends, geographic comparison between neighborhoods, analysis by property type (houses, condos, multi-family), and personal context by comparing specific neighborhoods to citywide trends.
+        </p>
+    </div>
+
+    <h2>Dashboard Features</h2>
+    <ul class="features-list">
+        <li><strong>Interactive Choropleth Map:</strong> SF neighborhoods colored by median housing price with click-to-select functionality and hover tooltips</li>
+        <li><strong>Time Series Line Chart:</strong> Median price trends from 2007-2024 for selected neighborhoods with citywide comparison</li>
+        <li><strong>Ranked Bar Chart:</strong> Top neighborhoods by median price, dynamically updated by selected year</li>
+        <li><strong>Scatter Plot:</strong> Price vs. square footage for properties in the selected neighborhood, colored by property type (house, condo, multi-family)</li>
+        <li><strong>Filter Controls:</strong> Year slider, property type buttons (All/Houses/Condos), and reset functionality</li>
+    </ul>
+
+    <div class="data-info">
+        <h2>Data Source</h2>
+        <p>
+            <strong>Primary Dataset:</strong> <a href="https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2" target="_blank">Assessor Historical Secured Property Tax Rolls</a><br>
+            Source: San Francisco Open Data (data.sfgov.org)<br>
+            Coverage: Fiscal years 2007-2024<br><br>
+            <strong>Supplementary Data:</strong> SF Analysis Neighborhoods GeoJSON boundaries
+        </p>
+    </div>
+
+    <h2>Visualization <span class="status in-progress">In Development</span></h2>
+    <p>The interactive dashboard is currently under development and will be available here upon completion.</p>
+    <a href="#" class="viz-link disabled">Launch Dashboard (Coming Soon)</a>
+
+    <footer>
+        <p>
+            CS360 Final Project | Spring 2026<br>
+            <a href="https://github.com/jjwilliamsgoldberg-maker/cs360FinalProject" target="_blank">View on GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>
