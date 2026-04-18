@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Housing Price Trends (2011-2024)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .line {
+            fill: none;
+            stroke-width: 2.5;
+        }
+        .citywide {
+            stroke: #7f8c8d;
+            stroke-dasharray: 5,5;
+        }
+        .inner-richmond {
+            stroke: #e74c3c;
+        }
+        .pacific-heights {
+            stroke: #3498db;
+        }
+        .mission {
+            stroke: #27ae60;
+        }
+        .bayview {
+            stroke: #9b59b6;
+        }
+        .source {
+            font-size: 0.8em;
+            color: #95a5a6;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h1>SF Housing Assessed Values by Neighborhood (2022-2024)</h1>
+        <p class="subtitle">Median assessed value for residential properties</p>
+        <div id="chart"></div>
+        <p class="source">Data: SF Assessor Historical Secured Property Tax Rolls (data.sfgov.org)</p>
+    </div>
+    
+    <script>
+        // Real data from SF Assessor dataset
+        const data = [
+            {"year": 2022, "citywide": 736422, "inner_richmond": 765371, "pacific_heights": 1205144, "mission": 771937, "bayview": 442432},
+            {"year": 2023, "citywide": 807352, "inner_richmond": 818850, "pacific_heights": 1334250, "mission": 830720, "bayview": 486454},
+            {"year": 2024, "citywide": 848081, "inner_richmond": 980158, "pacific_heights": 1410222, "mission": 823242, "bayview": 557526}
+        ];
+        
+        const margin = {top: 30, right: 150, bottom: 50, left: 80};
+        const width = 700 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+        
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+        
+        // X scale (years)
+        const x = d3.scaleLinear()
+            .domain([2022, 2024])
+            .range([0, width]);
+        
+        // Y scale (price)
+        const y = d3.scaleLinear()
+            .domain([0, 1600000])
+            .range([height, 0]);
+        
+        // X axis
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(3));
+        
+        // Y axis
+        svg.append("g")
+            .call(d3.axisLeft(y).ticks(6).tickFormat(d => "$" + d3.format(".2s")(d)));
+        
+        // X axis label
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 40)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .text("Year");
+        
+        // Y axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -60)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .text("Median Assessed Value ($)");
+        
+        // Line generators
+        const lineGenerator = (key) => d3.line()
+            .x(d => x(d.year))
+            .y(d => y(d[key]));
+        
+        // Draw lines and points
+        const series = [
+            {key: "pacific_heights", class: "pacific-heights", label: "Pacific Heights"},
+            {key: "inner_richmond", class: "inner-richmond", label: "Inner Richmond"},
+            {key: "citywide", class: "citywide", label: "Citywide Median"},
+            {key: "mission", class: "mission", label: "Mission"},
+            {key: "bayview", class: "bayview", label: "Bayview"}
+        ];
+        
+        series.forEach(s => {
+            // Line
+            svg.append("path")
+                .datum(data)
+                .attr("class", `line ${s.class}`)
+                .attr("d", lineGenerator(s.key));
+            
+            // Points
+            svg.selectAll(`.point-${s.key}`)
+                .data(data)
+                .join("circle")
+                .attr("cx", d => x(d.year))
+                .attr("cy", d => y(d[s.key]))
+                .attr("r", 5)
+                .attr("fill", s.class === "citywide" ? "#7f8c8d" : 
+                              s.class === "inner-richmond" ? "#e74c3c" :
+                              s.class === "pacific-heights" ? "#3498db" :
+                              s.class === "mission" ? "#27ae60" : "#9b59b6");
+        });
+        
+        // Legend
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width + 15}, 20)`);
+        
+        const legendItems = [
+            {color: "#3498db", label: "Pacific Heights", dash: false},
+            {color: "#e74c3c", label: "Inner Richmond", dash: false},
+            {color: "#27ae60", label: "Mission", dash: false},
+            {color: "#9b59b6", label: "Bayview", dash: false},
+            {color: "#7f8c8d", label: "Citywide", dash: true}
+        ];
+        
+        legendItems.forEach((item, i) => {
+            const g = legend.append("g")
+                .attr("transform", `translate(0, ${i * 25})`);
+            
+            g.append("line")
+                .attr("x1", 0).attr("x2", 25)
+                .attr("y1", 0).attr("y2", 0)
+                .attr("stroke", item.color)
+                .attr("stroke-width", 2.5)
+                .attr("stroke-dasharray", item.dash ? "5,5" : "none");
+            
+            g.append("text")
+                .attr("x", 30).attr("y", 4)
+                .style("font-size", "11px")
+                .text(item.label);
+        });
+        
+        // Annotation
+        svg.append("text")
+            .attr("x", x(2024) + 5)
+            .attr("y", y(980158))
+            .style("font-size", "10px")
+            .style("fill", "#e74c3c")
+            .attr("dy", "0.35em")
+            .text("↑ +28%");
+    </script>
+</body>
+</html>
