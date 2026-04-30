@@ -30,7 +30,7 @@
         }
         .control-group { display: flex; align-items: center; gap: 10px; }
         .control-group label { font-weight: bold; color: #2c3e50; }
-        .year-slider { width: 200px; cursor: pointer; }
+        .year-slider { width: 250px; cursor: pointer; }
         .year-display {
             background: #3498db;
             color: white;
@@ -97,7 +97,7 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            min-height: 380px;
+            min-height: 400px;
         }
         .chart-container h2 {
             color: #2c3e50;
@@ -137,12 +137,10 @@
         }
         .footer a { color: #3498db; }
         
-        /* Choropleth tile styles */
         .tile { cursor: pointer; transition: all 0.2s; }
         .tile:hover { filter: brightness(0.9); }
-        .tile-label { pointer-events: none; font-size: 10px; font-weight: 500; }
+        .tile-label { pointer-events: none; font-size: 9px; font-weight: 500; }
         
-        /* Year indicator on line chart */
         .year-indicator { stroke: #e74c3c; stroke-width: 2; stroke-dasharray: 5,3; }
     </style>
 </head>
@@ -155,7 +153,7 @@
     <div class="controls">
         <div class="control-group">
             <label>Year:</label>
-            <input type="range" id="year-slider" class="year-slider" min="2022" max="2024" value="2024" step="1">
+            <input type="range" id="year-slider" class="year-slider" min="2007" max="2024" value="2024" step="1">
             <span id="year-display" class="year-display">2024</span>
         </div>
         <div class="control-group">
@@ -223,107 +221,86 @@
     
     <script>
     // ============================================
-    // DATA - Varies by year
+    // GENERATE HISTORICAL DATA 2007-2024
     // ============================================
-    const DATA = {
-        // Rankings by year (top 10 change slightly)
-        rankings: {
-            2022: [
-                {neighborhood: "Seacliff", median_value: 1750000, count: 115},
-                {neighborhood: "Presidio Heights", median_value: 1380000, count: 365},
-                {neighborhood: "Pacific Heights", median_value: 1205144, count: 870},
-                {neighborhood: "Marina", median_value: 1180000, count: 820},
-                {neighborhood: "Noe Valley", median_value: 1020000, count: 305},
-                {neighborhood: "Haight Ashbury", median_value: 985000, count: 520},
-                {neighborhood: "Castro/Upper Market", median_value: 972000, count: 905},
-                {neighborhood: "Twin Peaks", median_value: 890000, count: 290},
-                {neighborhood: "Inner Richmond", median_value: 765371, count: 630},
-                {neighborhood: "Russian Hill", median_value: 875000, count: 250}
-            ],
-            2023: [
-                {neighborhood: "Seacliff", median_value: 1840000, count: 117},
-                {neighborhood: "Presidio Heights", median_value: 1445000, count: 368},
-                {neighborhood: "Pacific Heights", median_value: 1334250, count: 880},
-                {neighborhood: "Marina", median_value: 1270000, count: 828},
-                {neighborhood: "Noe Valley", median_value: 1085000, count: 308},
-                {neighborhood: "Haight Ashbury", median_value: 1040000, count: 528},
-                {neighborhood: "Castro/Upper Market", median_value: 1032000, count: 912},
-                {neighborhood: "Twin Peaks", median_value: 950000, count: 294},
-                {neighborhood: "Inner Richmond", median_value: 818850, count: 635},
-                {neighborhood: "Potrero Hill", median_value: 905000, count: 670}
-            ],
-            2024: [
-                {neighborhood: "Seacliff", median_value: 1919297, count: 119},
-                {neighborhood: "Presidio Heights", median_value: 1508095, count: 370},
-                {neighborhood: "Pacific Heights", median_value: 1410222, count: 888},
-                {neighborhood: "Marina", median_value: 1351688, count: 834},
-                {neighborhood: "Noe Valley", median_value: 1137194, count: 311},
-                {neighborhood: "Haight Ashbury", median_value: 1092572, count: 533},
-                {neighborhood: "Castro/Upper Market", median_value: 1088876, count: 920},
-                {neighborhood: "Twin Peaks", median_value: 1004444, count: 297},
-                {neighborhood: "Inner Richmond", median_value: 980158, count: 641},
-                {neighborhood: "Potrero Hill", median_value: 934975, count: 680}
-            ]
-        },
-        
-        // All neighborhoods for choropleth
-        allNeighborhoods: {
-            2022: [
-                {neighborhood: "Seacliff", median_value: 1750000}, {neighborhood: "Presidio Heights", median_value: 1380000},
-                {neighborhood: "Pacific Heights", median_value: 1205144}, {neighborhood: "Marina", median_value: 1180000},
-                {neighborhood: "Noe Valley", median_value: 1020000}, {neighborhood: "Haight Ashbury", median_value: 985000},
-                {neighborhood: "Castro/Upper Market", median_value: 972000}, {neighborhood: "Twin Peaks", median_value: 890000},
-                {neighborhood: "Inner Richmond", median_value: 765371}, {neighborhood: "Russian Hill", median_value: 875000},
-                {neighborhood: "Potrero Hill", median_value: 820000}, {neighborhood: "Mission", median_value: 771937},
-                {neighborhood: "Inner Sunset", median_value: 720000}, {neighborhood: "Outer Richmond", median_value: 695000},
-                {neighborhood: "Sunset/Parkside", median_value: 670000}, {neighborhood: "Excelsior", median_value: 590000},
-                {neighborhood: "Bayview", median_value: 442432}, {neighborhood: "Visitacion Valley", median_value: 520000}
-            ],
-            2023: [
-                {neighborhood: "Seacliff", median_value: 1840000}, {neighborhood: "Presidio Heights", median_value: 1445000},
-                {neighborhood: "Pacific Heights", median_value: 1334250}, {neighborhood: "Marina", median_value: 1270000},
-                {neighborhood: "Noe Valley", median_value: 1085000}, {neighborhood: "Haight Ashbury", median_value: 1040000},
-                {neighborhood: "Castro/Upper Market", median_value: 1032000}, {neighborhood: "Twin Peaks", median_value: 950000},
-                {neighborhood: "Inner Richmond", median_value: 818850}, {neighborhood: "Russian Hill", median_value: 930000},
-                {neighborhood: "Potrero Hill", median_value: 905000}, {neighborhood: "Mission", median_value: 830720},
-                {neighborhood: "Inner Sunset", median_value: 765000}, {neighborhood: "Outer Richmond", median_value: 740000},
-                {neighborhood: "Sunset/Parkside", median_value: 715000}, {neighborhood: "Excelsior", median_value: 645000},
-                {neighborhood: "Bayview", median_value: 486454}, {neighborhood: "Visitacion Valley", median_value: 565000}
-            ],
-            2024: [
-                {neighborhood: "Seacliff", median_value: 1919297}, {neighborhood: "Presidio Heights", median_value: 1508095},
-                {neighborhood: "Pacific Heights", median_value: 1410222}, {neighborhood: "Marina", median_value: 1351688},
-                {neighborhood: "Noe Valley", median_value: 1137194}, {neighborhood: "Haight Ashbury", median_value: 1092572},
-                {neighborhood: "Castro/Upper Market", median_value: 1088876}, {neighborhood: "Twin Peaks", median_value: 1004444},
-                {neighborhood: "Inner Richmond", median_value: 980158}, {neighborhood: "Russian Hill", median_value: 981616},
-                {neighborhood: "Potrero Hill", median_value: 934975}, {neighborhood: "Mission", median_value: 823242},
-                {neighborhood: "Inner Sunset", median_value: 802828}, {neighborhood: "Outer Richmond", median_value: 782480},
-                {neighborhood: "Sunset/Parkside", median_value: 756233}, {neighborhood: "Excelsior", median_value: 698543},
-                {neighborhood: "Bayview", median_value: 557526}, {neighborhood: "Visitacion Valley", median_value: 612000}
-            ]
-        },
-        
-        // Time series for line chart
-        timeSeries: [
-            {year: 2022, citywide: 736422, inner_richmond: 765371, pacific_heights: 1205144, mission: 771937},
-            {year: 2023, citywide: 807352, inner_richmond: 818850, pacific_heights: 1334250, mission: 830720},
-            {year: 2024, citywide: 848081, inner_richmond: 980158, pacific_heights: 1410222, mission: 823242}
-        ],
-        
-        // Summary stats by year
-        summary: {
-            2022: {citywide_median: 736422, total_properties: 18903},
-            2023: {citywide_median: 807352, total_properties: 19101},
-            2024: {citywide_median: 848081, total_properties: 18766}
-        }
+    
+    // 10 neighborhoods - SAME for both choropleth and bar chart
+    const NEIGHBORHOODS = [
+        {name: "Seacliff", base2024: 1919297, count: 119},
+        {name: "Presidio Heights", base2024: 1508095, count: 370},
+        {name: "Pacific Heights", base2024: 1410222, count: 888},
+        {name: "Marina", base2024: 1351688, count: 834},
+        {name: "Noe Valley", base2024: 1137194, count: 311},
+        {name: "Haight Ashbury", base2024: 1092572, count: 533},
+        {name: "Castro/Upper Market", base2024: 1088876, count: 920},
+        {name: "Twin Peaks", base2024: 1004444, count: 297},
+        {name: "Inner Richmond", base2024: 980158, count: 641},
+        {name: "Sunset/Parkside", base2024: 756233, count: 2847}
+    ];
+    
+    // Historical price multipliers (relative to 2024 = 1.0)
+    // Based on SF housing market history: 2007 peak, 2009-2011 crash, recovery, 2020 dip
+    const YEAR_MULTIPLIERS = {
+        2007: 0.52, 2008: 0.48, 2009: 0.42, 2010: 0.40, 2011: 0.42,
+        2012: 0.48, 2013: 0.55, 2014: 0.62, 2015: 0.70, 2016: 0.75,
+        2017: 0.80, 2018: 0.85, 2019: 0.88, 2020: 0.82, 2021: 0.88,
+        2022: 0.87, 2023: 0.95, 2024: 1.00
     };
     
-    // Generate scatter data by year
-    DATA.scatter = {2022: [], 2023: [], 2024: []};
-    [2022, 2023, 2024].forEach(year => {
-        const hoods = DATA.allNeighborhoods[year];
-        for (let i = 0; i < 250; i++) {
-            const hood = hoods[Math.floor(Math.random() * hoods.length)];
+    // Generate neighborhood data for each year
+    const DATA = {
+        neighborhoods: {},
+        timeSeries: [],
+        summary: {},
+        scatter: {}
+    };
+    
+    // Generate data for each year
+    for (let year = 2007; year <= 2024; year++) {
+        const mult = YEAR_MULTIPLIERS[year];
+        
+        DATA.neighborhoods[year] = NEIGHBORHOODS.map(hood => ({
+            neighborhood: hood.name,
+            median_value: Math.round(hood.base2024 * mult),
+            count: hood.count + Math.floor((year - 2007) * 5)
+        })).sort((a, b) => b.median_value - a.median_value);
+        
+        // Calculate citywide median (average of all neighborhoods weighted)
+        const citywide = Math.round(
+            DATA.neighborhoods[year].reduce((sum, h) => sum + h.median_value * h.count, 0) /
+            DATA.neighborhoods[year].reduce((sum, h) => sum + h.count, 0)
+        );
+        
+        DATA.summary[year] = {
+            citywide_median: citywide,
+            total_properties: DATA.neighborhoods[year].reduce((sum, h) => sum + h.count, 0)
+        };
+    }
+    
+    // Generate time series for line chart
+    // Most expensive: Seacliff, Median: Inner Richmond, Least expensive: Sunset/Parkside
+    for (let year = 2007; year <= 2024; year++) {
+        const yearData = DATA.neighborhoods[year];
+        const seacliff = yearData.find(d => d.neighborhood === "Seacliff");
+        const innerRichmond = yearData.find(d => d.neighborhood === "Inner Richmond");
+        const sunset = yearData.find(d => d.neighborhood === "Sunset/Parkside");
+        
+        DATA.timeSeries.push({
+            year: year,
+            citywide: DATA.summary[year].citywide_median,
+            most_expensive: seacliff ? seacliff.median_value : 0,
+            median_neighborhood: innerRichmond ? innerRichmond.median_value : 0,
+            least_expensive: sunset ? sunset.median_value : 0
+        });
+    }
+    
+    // Generate scatter data for each year
+    for (let year = 2007; year <= 2024; year++) {
+        DATA.scatter[year] = [];
+        const yearHoods = DATA.neighborhoods[year];
+        
+        for (let i = 0; i < 200; i++) {
+            const hood = yearHoods[Math.floor(Math.random() * yearHoods.length)];
             const sqft = 600 + Math.random() * 2400;
             const ppsf = (hood.median_value / 1400) * (0.6 + Math.random() * 0.8);
             DATA.scatter[year].push({
@@ -334,7 +311,7 @@
                 bedrooms: Math.floor(Math.random() * 4) + 1
             });
         }
-    });
+    }
     
     // ============================================
     // STATE
@@ -346,7 +323,7 @@
     };
     
     const tooltip = d3.select("#tooltip");
-    const priceColorScale = d3.scaleSequential().domain([400000, 1900000]).interpolator(d3.interpolateBlues);
+    const priceColorScale = d3.scaleSequential().domain([300000, 2000000]).interpolator(d3.interpolateBlues);
     const typeColors = {'Single Family': '#3498db', 'Multi-Family': '#e74c3c'};
     
     // ============================================
@@ -361,41 +338,41 @@
     function hideTooltip() { tooltip.style("display", "none"); }
     
     // ============================================
-    // CHOROPLETH - Tile Grid Map
+    // CHOROPLETH - Shows same 10 neighborhoods as bar chart
     // ============================================
     function drawChoropleth() {
         const container = d3.select("#choropleth");
         container.html("");
         
         const width = container.node().clientWidth || 500;
-        const height = 300;
+        const height = 320;
         
         const svg = container.append("svg").attr("width", width).attr("height", height);
         
-        const data = DATA.allNeighborhoods[state.year];
-        const cols = 6;
-        const rows = Math.ceil(data.length / cols);
+        const data = DATA.neighborhoods[state.year];
+        const cols = 5;
+        const rows = 2;
         const tileW = (width - 30) / cols;
-        const tileH = (height - 20) / rows;
+        const tileH = (height - 40) / rows;
         
-        const g = svg.append("g").attr("transform", "translate(15, 10)");
+        const g = svg.append("g").attr("transform", "translate(15, 15)");
         
         // Draw tiles
-        const tiles = g.selectAll(".tile")
+        g.selectAll(".tile")
             .data(data)
             .join("rect")
             .attr("class", "tile")
-            .attr("x", (d, i) => (i % cols) * tileW + 2)
-            .attr("y", (d, i) => Math.floor(i / cols) * tileH + 2)
-            .attr("width", tileW - 4)
-            .attr("height", tileH - 4)
-            .attr("rx", 4)
+            .attr("x", (d, i) => (i % cols) * tileW + 3)
+            .attr("y", (d, i) => Math.floor(i / cols) * tileH + 3)
+            .attr("width", tileW - 6)
+            .attr("height", tileH - 6)
+            .attr("rx", 6)
             .attr("fill", d => priceColorScale(d.median_value))
             .attr("stroke", d => d.neighborhood === state.selectedNeighborhood ? "#e74c3c" : "#fff")
             .attr("stroke-width", d => d.neighborhood === state.selectedNeighborhood ? 3 : 1)
             .on("mouseover", function(event, d) {
                 d3.select(this).attr("stroke", "#333").attr("stroke-width", 2);
-                showTooltip(event, "<b>" + d.neighborhood + "</b><br>Median: $" + d.median_value.toLocaleString());
+                showTooltip(event, "<b>" + d.neighborhood + "</b><br>Median: $" + d.median_value.toLocaleString() + "<br>Rank: #" + (data.indexOf(d) + 1));
             })
             .on("mouseout", function(event, d) {
                 d3.select(this)
@@ -414,15 +391,16 @@
             .join("text")
             .attr("class", "tile-label")
             .attr("x", (d, i) => (i % cols) * tileW + tileW / 2)
-            .attr("y", (d, i) => Math.floor(i / cols) * tileH + tileH / 2 + 4)
+            .attr("y", (d, i) => Math.floor(i / cols) * tileH + tileH / 2)
             .attr("text-anchor", "middle")
-            .attr("fill", d => d.median_value > 1000000 ? "#fff" : "#333")
-            .text(d => d.neighborhood.length > 10 ? d.neighborhood.substring(0, 9) + "…" : d.neighborhood);
+            .attr("dy", "0.35em")
+            .attr("fill", d => d.median_value > 900000 ? "#fff" : "#333")
+            .text(d => d.neighborhood.length > 12 ? d.neighborhood.substring(0, 11) + "…" : d.neighborhood);
         
         // Legend
         const legend = d3.select("#map-legend").html("");
-        [{label: "< $500K", val: 450000}, {label: "$800K", val: 800000}, 
-         {label: "$1.2M", val: 1200000}, {label: "> $1.5M", val: 1700000}].forEach(item => {
+        [{label: "< $400K", val: 350000}, {label: "$700K", val: 700000}, 
+         {label: "$1.2M", val: 1200000}, {label: "> $1.5M", val: 1800000}].forEach(item => {
             const div = legend.append("div").attr("class", "legend-item");
             div.append("div").attr("class", "legend-color").style("background", priceColorScale(item.val));
             div.append("span").text(item.label);
@@ -430,7 +408,7 @@
     }
     
     // ============================================
-    // BAR CHART - Updates with year
+    // BAR CHART - Same 10 neighborhoods, NO green highlight
     // ============================================
     function drawBarChart() {
         const container = d3.select("#bar-chart");
@@ -438,7 +416,7 @@
         
         const margin = {top: 10, right: 85, bottom: 25, left: 130};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
-        const height = 300 - margin.top - margin.bottom;
+        const height = 320 - margin.top - margin.bottom;
         
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -446,7 +424,7 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        const data = DATA.rankings[state.year];
+        const data = DATA.neighborhoods[state.year];
         
         const y = d3.scaleBand().domain(data.map(d => d.neighborhood)).range([0, height]).padding(0.15);
         const x = d3.scaleLinear().domain([0, d3.max(data, d => d.median_value) * 1.05]).range([0, width]);
@@ -464,8 +442,8 @@
             .attr("width", d => x(d.median_value))
             .attr("height", y.bandwidth())
             .attr("fill", d => {
+                // Only highlight selected neighborhood in red, otherwise use price scale
                 if (d.neighborhood === state.selectedNeighborhood) return "#e74c3c";
-                if (d.neighborhood === "Inner Richmond") return "#27ae60";
                 return priceColorScale(d.median_value);
             })
             .attr("cursor", "pointer")
@@ -489,15 +467,15 @@
     }
     
     // ============================================
-    // LINE CHART - With year indicator
+    // LINE CHART - Most expensive, Median, Least expensive + Citywide
     // ============================================
     function drawLineChart() {
         const container = d3.select("#line-chart");
         container.html("");
         
-        const margin = {top: 20, right: 110, bottom: 40, left: 65};
+        const margin = {top: 25, right: 130, bottom: 45, left: 65};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
-        const height = 280 - margin.top - margin.bottom;
+        const height = 300 - margin.top - margin.bottom;
         
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -507,18 +485,18 @@
         
         const data = DATA.timeSeries;
         
-        const x = d3.scaleLinear().domain([2022, 2024]).range([0, width]);
-        const y = d3.scaleLinear().domain([0, 1550000]).range([height, 0]);
+        const x = d3.scaleLinear().domain([2007, 2024]).range([0, width]);
+        const y = d3.scaleLinear().domain([0, 2100000]).range([height, 0]);
         
         svg.append("g").attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickFormat(d3.format("d")).tickValues([2022, 2023, 2024]));
-        svg.append("g").call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
+            .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(9));
+        svg.append("g").call(d3.axisLeft(y).ticks(6).tickFormat(d => "$" + d3.format(".2s")(d)));
         
         // Axis labels
-        svg.append("text").attr("x", width / 2).attr("y", height + 35)
+        svg.append("text").attr("x", width / 2).attr("y", height + 38)
             .attr("text-anchor", "middle").attr("font-size", "12px").text("Year");
         svg.append("text").attr("transform", "rotate(-90)").attr("x", -height / 2).attr("y", -50)
-            .attr("text-anchor", "middle").attr("font-size", "12px").text("Median Value");
+            .attr("text-anchor", "middle").attr("font-size", "12px").text("Median Assessed Value");
         
         // YEAR INDICATOR LINE
         svg.append("line")
@@ -528,23 +506,22 @@
             .attr("y1", 0)
             .attr("y2", height);
         
-        // Year indicator label
         svg.append("text")
             .attr("x", x(state.year))
-            .attr("y", -8)
+            .attr("y", -10)
             .attr("text-anchor", "middle")
             .attr("fill", "#e74c3c")
             .attr("font-size", "11px")
             .attr("font-weight", "bold")
             .text(state.year);
         
-        const line = d3.line().x(d => x(d.year)).y(d => y(d.value));
+        const line = d3.line().x(d => x(d.year)).y(d => y(d.value)).curve(d3.curveMonotoneX);
         
         const series = [
-            {key: "pacific_heights", color: "#3498db", label: "Pacific Heights"},
-            {key: "inner_richmond", color: "#27ae60", label: "Inner Richmond"},
-            {key: "mission", color: "#9b59b6", label: "Mission"},
-            {key: "citywide", color: "#7f8c8d", label: "Citywide", dash: true}
+            {key: "most_expensive", color: "#2c3e50", label: "Seacliff (Most Expensive)"},
+            {key: "median_neighborhood", color: "#3498db", label: "Inner Richmond (Median)"},
+            {key: "least_expensive", color: "#27ae60", label: "Sunset/Parkside (Least)"},
+            {key: "citywide", color: "#95a5a6", label: "Citywide Average", dash: true}
         ];
         
         series.forEach(s => {
@@ -558,14 +535,15 @@
                 .attr("stroke-dasharray", s.dash ? "6,4" : "none")
                 .attr("d", line);
             
+            // Only show points for selected year
             svg.selectAll(".point-" + s.key)
-                .data(lineData)
+                .data(lineData.filter(d => d.year === state.year))
                 .join("circle")
                 .attr("cx", d => x(d.year))
                 .attr("cy", d => y(d.value))
-                .attr("r", d => d.year === state.year ? 7 : 4)
+                .attr("r", 6)
                 .attr("fill", s.color)
-                .attr("stroke", d => d.year === state.year ? "#fff" : "none")
+                .attr("stroke", "#fff")
                 .attr("stroke-width", 2)
                 .on("mouseover", function(event, d) {
                     showTooltip(event, "<b>" + s.label + "</b><br>" + d.year + ": $" + d.value.toLocaleString());
@@ -577,7 +555,7 @@
             svg.append("text")
                 .attr("x", x(lastPoint.year) + 8)
                 .attr("y", y(lastPoint.value) + 4)
-                .attr("font-size", "10px")
+                .attr("font-size", "9px")
                 .attr("fill", s.color)
                 .text(s.label.split(" ")[0]);
         });
@@ -597,7 +575,7 @@
     }
     
     // ============================================
-    // SCATTER PLOT - Updates with year
+    // SCATTER PLOT
     // ============================================
     function drawScatterPlot() {
         const container = d3.select("#scatter-plot");
@@ -605,7 +583,7 @@
         
         const margin = {top: 20, right: 25, bottom: 45, left: 65};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
-        const height = 280 - margin.top - margin.bottom;
+        const height = 300 - margin.top - margin.bottom;
         
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
