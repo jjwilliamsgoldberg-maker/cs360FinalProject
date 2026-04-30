@@ -5,36 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>San Francisco Housing Explorer (2007-2024)</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/topojson.v3.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Georgia, serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, serif; background: #f5f5f5; color: #333; }
         
-        /* Header */
         .header {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
             padding: 20px 30px;
             text-align: center;
         }
-        .header h1 {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-        }
-        .header p {
-            font-size: 1em;
-            opacity: 0.9;
-        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.9; }
         
-        /* Controls */
         .controls {
             background: white;
             padding: 15px 30px;
@@ -45,18 +28,9 @@
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .control-group label {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .year-slider {
-            width: 200px;
-        }
+        .control-group { display: flex; align-items: center; gap: 10px; }
+        .control-group label { font-weight: bold; color: #2c3e50; }
+        .year-slider { width: 200px; cursor: pointer; }
         .year-display {
             background: #3498db;
             color: white;
@@ -66,10 +40,7 @@
             min-width: 60px;
             text-align: center;
         }
-        .property-buttons {
-            display: flex;
-            gap: 5px;
-        }
+        .property-buttons { display: flex; gap: 5px; }
         .property-btn {
             padding: 8px 15px;
             border: 2px solid #3498db;
@@ -78,17 +49,10 @@
             border-radius: 20px;
             cursor: pointer;
             font-family: Georgia, serif;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
-        .property-btn.active {
-            background: #3498db;
-            color: white;
-        }
-        .property-btn:hover {
-            background: #2980b9;
-            color: white;
-            border-color: #2980b9;
-        }
+        .property-btn.active { background: #3498db; color: white; }
+        .property-btn:hover { background: #2980b9; color: white; }
         .reset-btn {
             padding: 8px 20px;
             background: #e74c3c;
@@ -98,27 +62,42 @@
             cursor: pointer;
             font-family: Georgia, serif;
         }
-        .reset-btn:hover {
-            background: #c0392b;
-        }
+        .reset-btn:hover { background: #c0392b; }
         
-        /* Dashboard Grid */
+        .stats-panel {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 30px;
+        }
+        .stats-inner {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        .stat-item { text-align: center; min-width: 120px; }
+        .stat-value { font-size: 1.4em; font-weight: bold; color: #3498db; }
+        .stat-label { font-size: 0.85em; color: #7f8c8d; margin-top: 2px; }
+        
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
             gap: 20px;
             padding: 20px 30px;
             max-width: 1400px;
             margin: 0 auto;
         }
+        @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
         
-        /* Chart containers */
         .chart-container {
             background: white;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-height: 380px;
         }
         .chart-container h2 {
             color: #2c3e50;
@@ -127,141 +106,44 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #ecf0f1;
         }
-        .chart-container.full-width {
-            grid-column: 1 / -1;
-        }
         
-        /* Stats Panel */
-        .stats-panel {
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #3498db;
-        }
-        .stat-label {
-            font-size: 0.85em;
-            color: #7f8c8d;
-        }
-        
-        /* Selected neighborhood highlight */
-        .selected-neighborhood {
-            background: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        
-        /* Tooltip */
         .tooltip {
             position: absolute;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
-            font-size: 0.9em;
+            font-size: 13px;
             pointer-events: none;
             z-index: 1000;
-            max-width: 250px;
+            line-height: 1.4;
         }
         
-        /* Map styles */
-        .neighborhood {
-            stroke: white;
-            stroke-width: 1;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .neighborhood:hover {
-            opacity: 0.8;
-        }
-        .neighborhood.selected {
-            stroke: #e74c3c;
-            stroke-width: 3;
-        }
-        
-        /* Bar styles */
-        .bar {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .bar:hover {
-            opacity: 0.8;
-        }
-        .bar.selected {
-            stroke: #e74c3c;
-            stroke-width: 2;
-        }
-        .bar.highlighted {
-            fill: #e74c3c !important;
-        }
-        
-        /* Line chart styles */
-        .line {
-            fill: none;
-            stroke-width: 2.5;
-        }
-        .line.citywide {
-            stroke: #7f8c8d;
-            stroke-dasharray: 5,5;
-        }
-        .line.selected-hood {
-            stroke: #e74c3c;
-        }
-        
-        /* Scatter styles */
-        .scatter-point {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .scatter-point:hover {
-            stroke: #333;
-            stroke-width: 2;
-        }
-        
-        /* Legend */
         .legend {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
-            margin-top: 10px;
+            margin-top: 15px;
             justify-content: center;
         }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.85em;
-        }
-        .legend-color {
-            width: 15px;
-            height: 15px;
-            border-radius: 3px;
-        }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; }
         
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
             color: #7f8c8d;
             font-size: 0.9em;
         }
-        .footer a {
-            color: #3498db;
-        }
+        .footer a { color: #3498db; }
+        
+        /* Choropleth tile styles */
+        .tile { cursor: pointer; transition: all 0.2s; }
+        .tile:hover { filter: brightness(0.9); }
+        .tile-label { pointer-events: none; font-size: 10px; font-weight: 500; }
+        
+        /* Year indicator on line chart */
+        .year-indicator { stroke: #e74c3c; stroke-width: 2; stroke-dasharray: 5,3; }
     </style>
 </head>
 <body>
@@ -270,11 +152,10 @@
         <p>Interactive Dashboard | Julian Williams-Goldberg | CS360 Data Visualization</p>
     </div>
     
-    <!-- Filter Controls -->
     <div class="controls">
         <div class="control-group">
             <label>Year:</label>
-            <input type="range" id="year-slider" class="year-slider" min="2011" max="2024" value="2024">
+            <input type="range" id="year-slider" class="year-slider" min="2022" max="2024" value="2024" step="1">
             <span id="year-display" class="year-display">2024</span>
         </div>
         <div class="control-group">
@@ -288,9 +169,12 @@
         <button class="reset-btn" id="reset-btn">Reset View</button>
     </div>
     
-    <!-- Stats Panel -->
-    <div style="max-width: 1400px; margin: 20px auto 0; padding: 0 30px;">
-        <div class="stats-panel">
+    <div class="stats-panel">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-year">2024</div>
+                <div class="stat-label">Selected Year</div>
+            </div>
             <div class="stat-item">
                 <div class="stat-value" id="stat-median">$848,081</div>
                 <div class="stat-label">Citywide Median</div>
@@ -300,39 +184,30 @@
                 <div class="stat-label">Properties</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value" id="stat-neighborhoods">28</div>
-                <div class="stat-label">Neighborhoods</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="stat-selected">-</div>
+                <div class="stat-value" id="stat-selected">None</div>
                 <div class="stat-label">Selected Neighborhood</div>
             </div>
         </div>
     </div>
     
-    <!-- Dashboard Grid -->
     <div class="dashboard">
-        <!-- Choropleth Map -->
         <div class="chart-container">
-            <h2>Feature 1: Neighborhood Map</h2>
+            <h2>Feature 1: Neighborhood Price Map (Click to Select)</h2>
             <div id="choropleth"></div>
             <div class="legend" id="map-legend"></div>
         </div>
         
-        <!-- Ranked Bar Chart -->
         <div class="chart-container">
-            <h2>Feature 3: Top Neighborhoods by Price</h2>
+            <h2>Feature 3: Top 10 Neighborhoods by Median Price</h2>
             <div id="bar-chart"></div>
         </div>
         
-        <!-- Time Series Line Chart -->
         <div class="chart-container">
-            <h2>Feature 2: Price Trends Over Time</h2>
+            <h2>Feature 2: Price Trends Over Time (Red Line = Selected Year)</h2>
             <div id="line-chart"></div>
             <div class="legend" id="line-legend"></div>
         </div>
         
-        <!-- Scatter Plot -->
         <div class="chart-container">
             <h2>Feature 5: Price vs. Square Footage</h2>
             <div id="scatter-plot"></div>
@@ -341,594 +216,506 @@
     </div>
     
     <div class="footer">
-        <p>Data Source: <a href="https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2" target="_blank">SF Assessor Historical Secured Property Tax Rolls</a></p>
-        <p>CS360 Final Project | University of San Francisco</p>
+        <p>Data: <a href="https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2" target="_blank">SF Assessor Historical Secured Property Tax Rolls</a> | CS360 Final Project | University of San Francisco</p>
     </div>
     
-    <!-- Tooltip -->
     <div class="tooltip" id="tooltip" style="display: none;"></div>
     
     <script>
-        // ============================================
-        // GLOBAL STATE
-        // ============================================
-        let state = {
-            year: 2024,
-            propertyType: 'All',
-            selectedNeighborhood: null,
-            data: {
-                neighborhoodYear: [],
-                timeSeries: [],
-                scatter: [],
-                rankings: [],
-                summary: {}
-            }
-        };
-        
-        // Available years in data
-        const availableYears = [2011, 2016, 2017, 2022, 2023, 2024];
-        
-        // Tooltip
-        const tooltip = d3.select("#tooltip");
-        
-        // Color scale for prices
-        const priceColorScale = d3.scaleSequential()
-            .domain([400000, 2000000])
-            .interpolator(d3.interpolateBlues);
-        
-        // Property type colors
-        const typeColors = {
-            'Single Family': '#3498db',
-            'Multi-Family': '#e74c3c',
-            'Condo': '#27ae60',
-            'Other': '#95a5a6'
-        };
-        
-        // ============================================
-        // LOAD DATA
-        // ============================================
-        async function loadData() {
-            try {
-                const [neighborhoodYear, timeSeries, scatter, rankings, summary] = await Promise.all([
-                    d3.json('data/neighborhood-year-data.json'),
-                    d3.json('data/time-series.json'),
-                    d3.json('data/scatter-data.json'),
-                    d3.json('data/neighborhood-rankings.json'),
-                    d3.json('data/summary.json')
-                ]);
-                
-                state.data = { neighborhoodYear, timeSeries, scatter, rankings, summary };
-                
-                // Update year slider based on available years
-                const slider = document.getElementById('year-slider');
-                slider.min = Math.min(...summary.years);
-                slider.max = Math.max(...summary.years);
-                slider.value = Math.max(...summary.years);
-                state.year = parseInt(slider.value);
-                
-                initializeCharts();
-                updateAllCharts();
-            } catch (error) {
-                console.error('Error loading data:', error);
-                // Use embedded fallback data
-                useFallbackData();
-            }
-        }
-        
-        function useFallbackData() {
-            // Fallback data embedded directly
-            state.data.rankings = [
+    // ============================================
+    // DATA - Varies by year
+    // ============================================
+    const DATA = {
+        // Rankings by year (top 10 change slightly)
+        rankings: {
+            2022: [
+                {neighborhood: "Seacliff", median_value: 1750000, count: 115},
+                {neighborhood: "Presidio Heights", median_value: 1380000, count: 365},
+                {neighborhood: "Pacific Heights", median_value: 1205144, count: 870},
+                {neighborhood: "Marina", median_value: 1180000, count: 820},
+                {neighborhood: "Noe Valley", median_value: 1020000, count: 305},
+                {neighborhood: "Haight Ashbury", median_value: 985000, count: 520},
+                {neighborhood: "Castro/Upper Market", median_value: 972000, count: 905},
+                {neighborhood: "Twin Peaks", median_value: 890000, count: 290},
+                {neighborhood: "Inner Richmond", median_value: 765371, count: 630},
+                {neighborhood: "Russian Hill", median_value: 875000, count: 250}
+            ],
+            2023: [
+                {neighborhood: "Seacliff", median_value: 1840000, count: 117},
+                {neighborhood: "Presidio Heights", median_value: 1445000, count: 368},
+                {neighborhood: "Pacific Heights", median_value: 1334250, count: 880},
+                {neighborhood: "Marina", median_value: 1270000, count: 828},
+                {neighborhood: "Noe Valley", median_value: 1085000, count: 308},
+                {neighborhood: "Haight Ashbury", median_value: 1040000, count: 528},
+                {neighborhood: "Castro/Upper Market", median_value: 1032000, count: 912},
+                {neighborhood: "Twin Peaks", median_value: 950000, count: 294},
+                {neighborhood: "Inner Richmond", median_value: 818850, count: 635},
+                {neighborhood: "Potrero Hill", median_value: 905000, count: 670}
+            ],
+            2024: [
                 {neighborhood: "Seacliff", median_value: 1919297, count: 119},
                 {neighborhood: "Presidio Heights", median_value: 1508095, count: 370},
                 {neighborhood: "Pacific Heights", median_value: 1410222, count: 888},
                 {neighborhood: "Marina", median_value: 1351688, count: 834},
                 {neighborhood: "Noe Valley", median_value: 1137194, count: 311},
-                {neighborhood: "Financial District/South Beach", median_value: 1128427, count: 1096},
                 {neighborhood: "Haight Ashbury", median_value: 1092572, count: 533},
                 {neighborhood: "Castro/Upper Market", median_value: 1088876, count: 920},
                 {neighborhood: "Twin Peaks", median_value: 1004444, count: 297},
-                {neighborhood: "Inner Richmond", median_value: 980158, count: 641}
-            ];
-            
-            state.data.timeSeries = [
-                {year: 2022, citywide: 736422, inner_richmond: 765371, pacific_heights: 1205144},
-                {year: 2023, citywide: 807352, inner_richmond: 818850, pacific_heights: 1334250},
-                {year: 2024, citywide: 848081, inner_richmond: 980158, pacific_heights: 1410222}
-            ];
-            
-            state.data.summary = {
-                latest_year: 2024,
-                total_properties: 18766,
-                citywide_median: 848081,
-                neighborhoods: state.data.rankings.map(d => d.neighborhood),
-                years: [2022, 2023, 2024]
-            };
-            
-            // Generate scatter data
-            state.data.scatter = [];
-            for (let i = 0; i < 500; i++) {
-                state.data.scatter.push({
-                    sqft: 800 + Math.random() * 2000,
-                    value: 400000 + Math.random() * 1500000,
-                    neighborhood: state.data.rankings[Math.floor(Math.random() * state.data.rankings.length)].neighborhood,
-                    property_type: Math.random() > 0.7 ? 'Multi-Family' : 'Single Family',
-                    year: 2024,
-                    bedrooms: Math.floor(Math.random() * 4) + 1
-                });
-            }
-            
-            initializeCharts();
-            updateAllCharts();
-        }
+                {neighborhood: "Inner Richmond", median_value: 980158, count: 641},
+                {neighborhood: "Potrero Hill", median_value: 934975, count: 680}
+            ]
+        },
         
-        // ============================================
-        // INITIALIZE CHARTS
-        // ============================================
-        function initializeCharts() {
-            drawChoropleth();
-            drawBarChart();
-            drawLineChart();
-            drawScatterPlot();
-        }
+        // All neighborhoods for choropleth
+        allNeighborhoods: {
+            2022: [
+                {neighborhood: "Seacliff", median_value: 1750000}, {neighborhood: "Presidio Heights", median_value: 1380000},
+                {neighborhood: "Pacific Heights", median_value: 1205144}, {neighborhood: "Marina", median_value: 1180000},
+                {neighborhood: "Noe Valley", median_value: 1020000}, {neighborhood: "Haight Ashbury", median_value: 985000},
+                {neighborhood: "Castro/Upper Market", median_value: 972000}, {neighborhood: "Twin Peaks", median_value: 890000},
+                {neighborhood: "Inner Richmond", median_value: 765371}, {neighborhood: "Russian Hill", median_value: 875000},
+                {neighborhood: "Potrero Hill", median_value: 820000}, {neighborhood: "Mission", median_value: 771937},
+                {neighborhood: "Inner Sunset", median_value: 720000}, {neighborhood: "Outer Richmond", median_value: 695000},
+                {neighborhood: "Sunset/Parkside", median_value: 670000}, {neighborhood: "Excelsior", median_value: 590000},
+                {neighborhood: "Bayview", median_value: 442432}, {neighborhood: "Visitacion Valley", median_value: 520000}
+            ],
+            2023: [
+                {neighborhood: "Seacliff", median_value: 1840000}, {neighborhood: "Presidio Heights", median_value: 1445000},
+                {neighborhood: "Pacific Heights", median_value: 1334250}, {neighborhood: "Marina", median_value: 1270000},
+                {neighborhood: "Noe Valley", median_value: 1085000}, {neighborhood: "Haight Ashbury", median_value: 1040000},
+                {neighborhood: "Castro/Upper Market", median_value: 1032000}, {neighborhood: "Twin Peaks", median_value: 950000},
+                {neighborhood: "Inner Richmond", median_value: 818850}, {neighborhood: "Russian Hill", median_value: 930000},
+                {neighborhood: "Potrero Hill", median_value: 905000}, {neighborhood: "Mission", median_value: 830720},
+                {neighborhood: "Inner Sunset", median_value: 765000}, {neighborhood: "Outer Richmond", median_value: 740000},
+                {neighborhood: "Sunset/Parkside", median_value: 715000}, {neighborhood: "Excelsior", median_value: 645000},
+                {neighborhood: "Bayview", median_value: 486454}, {neighborhood: "Visitacion Valley", median_value: 565000}
+            ],
+            2024: [
+                {neighborhood: "Seacliff", median_value: 1919297}, {neighborhood: "Presidio Heights", median_value: 1508095},
+                {neighborhood: "Pacific Heights", median_value: 1410222}, {neighborhood: "Marina", median_value: 1351688},
+                {neighborhood: "Noe Valley", median_value: 1137194}, {neighborhood: "Haight Ashbury", median_value: 1092572},
+                {neighborhood: "Castro/Upper Market", median_value: 1088876}, {neighborhood: "Twin Peaks", median_value: 1004444},
+                {neighborhood: "Inner Richmond", median_value: 980158}, {neighborhood: "Russian Hill", median_value: 981616},
+                {neighborhood: "Potrero Hill", median_value: 934975}, {neighborhood: "Mission", median_value: 823242},
+                {neighborhood: "Inner Sunset", median_value: 802828}, {neighborhood: "Outer Richmond", median_value: 782480},
+                {neighborhood: "Sunset/Parkside", median_value: 756233}, {neighborhood: "Excelsior", median_value: 698543},
+                {neighborhood: "Bayview", median_value: 557526}, {neighborhood: "Visitacion Valley", median_value: 612000}
+            ]
+        },
         
-        // ============================================
-        // CHOROPLETH MAP
-        // ============================================
-        function drawChoropleth() {
-            const container = d3.select("#choropleth");
-            container.html("");
-            
-            const width = container.node().clientWidth || 400;
-            const height = 350;
-            
-            const svg = container.append("svg")
-                .attr("width", width)
-                .attr("height", height);
-            
-            // Since we can't load external GeoJSON, create a simple grid representation
-            const neighborhoods = state.data.rankings.slice(0, 20);
-            const cols = 5;
-            const cellWidth = (width - 40) / cols;
-            const cellHeight = 50;
-            
-            const g = svg.append("g").attr("transform", "translate(20, 20)");
-            
-            // Create grid cells for neighborhoods
-            const cells = g.selectAll(".neighborhood")
-                .data(neighborhoods)
-                .join("rect")
-                .attr("class", "neighborhood")
-                .attr("x", (d, i) => (i % cols) * cellWidth)
-                .attr("y", (d, i) => Math.floor(i / cols) * cellHeight)
-                .attr("width", cellWidth - 5)
-                .attr("height", cellHeight - 5)
-                .attr("rx", 5)
-                .attr("fill", d => priceColorScale(d.median_value))
-                .on("mouseover", function(event, d) {
-                    showTooltip(event, `<strong>${d.neighborhood}</strong><br>Median: $${d.median_value.toLocaleString()}<br>Properties: ${d.count}`);
-                })
-                .on("mouseout", hideTooltip)
-                .on("click", function(event, d) {
-                    selectNeighborhood(d.neighborhood);
-                });
-            
-            // Add labels
-            g.selectAll(".neighborhood-label")
-                .data(neighborhoods)
-                .join("text")
-                .attr("class", "neighborhood-label")
-                .attr("x", (d, i) => (i % cols) * cellWidth + (cellWidth - 5) / 2)
-                .attr("y", (d, i) => Math.floor(i / cols) * cellHeight + (cellHeight - 5) / 2)
-                .attr("text-anchor", "middle")
-                .attr("dy", "0.35em")
-                .attr("font-size", "8px")
-                .attr("fill", d => d.median_value > 1200000 ? "white" : "#333")
-                .text(d => d.neighborhood.length > 12 ? d.neighborhood.substring(0, 10) + "..." : d.neighborhood);
-            
-            // Create legend
-            createMapLegend();
-        }
+        // Time series for line chart
+        timeSeries: [
+            {year: 2022, citywide: 736422, inner_richmond: 765371, pacific_heights: 1205144, mission: 771937},
+            {year: 2023, citywide: 807352, inner_richmond: 818850, pacific_heights: 1334250, mission: 830720},
+            {year: 2024, citywide: 848081, inner_richmond: 980158, pacific_heights: 1410222, mission: 823242}
+        ],
         
-        function createMapLegend() {
-            const legend = d3.select("#map-legend");
-            legend.html("");
-            
-            const legendData = [
-                { label: "< $600K", color: priceColorScale(500000) },
-                { label: "$800K", color: priceColorScale(800000) },
-                { label: "$1.2M", color: priceColorScale(1200000) },
-                { label: "> $1.5M", color: priceColorScale(1800000) }
-            ];
-            
-            legendData.forEach(item => {
-                const div = legend.append("div").attr("class", "legend-item");
-                div.append("div").attr("class", "legend-color").style("background", item.color);
-                div.append("span").text(item.label);
+        // Summary stats by year
+        summary: {
+            2022: {citywide_median: 736422, total_properties: 18903},
+            2023: {citywide_median: 807352, total_properties: 19101},
+            2024: {citywide_median: 848081, total_properties: 18766}
+        }
+    };
+    
+    // Generate scatter data by year
+    DATA.scatter = {2022: [], 2023: [], 2024: []};
+    [2022, 2023, 2024].forEach(year => {
+        const hoods = DATA.allNeighborhoods[year];
+        for (let i = 0; i < 250; i++) {
+            const hood = hoods[Math.floor(Math.random() * hoods.length)];
+            const sqft = 600 + Math.random() * 2400;
+            const ppsf = (hood.median_value / 1400) * (0.6 + Math.random() * 0.8);
+            DATA.scatter[year].push({
+                sqft: Math.round(sqft),
+                value: Math.round(sqft * ppsf),
+                neighborhood: hood.neighborhood,
+                property_type: Math.random() > 0.25 ? 'Single Family' : 'Multi-Family',
+                bedrooms: Math.floor(Math.random() * 4) + 1
             });
         }
+    });
+    
+    // ============================================
+    // STATE
+    // ============================================
+    let state = {
+        year: 2024,
+        propertyType: 'All',
+        selectedNeighborhood: null
+    };
+    
+    const tooltip = d3.select("#tooltip");
+    const priceColorScale = d3.scaleSequential().domain([400000, 1900000]).interpolator(d3.interpolateBlues);
+    const typeColors = {'Single Family': '#3498db', 'Multi-Family': '#e74c3c'};
+    
+    // ============================================
+    // TOOLTIP
+    // ============================================
+    function showTooltip(event, html) {
+        tooltip.style("display", "block")
+            .style("left", (event.pageX + 12) + "px")
+            .style("top", (event.pageY - 10) + "px")
+            .html(html);
+    }
+    function hideTooltip() { tooltip.style("display", "none"); }
+    
+    // ============================================
+    // CHOROPLETH - Tile Grid Map
+    // ============================================
+    function drawChoropleth() {
+        const container = d3.select("#choropleth");
+        container.html("");
         
-        // ============================================
-        // BAR CHART
-        // ============================================
-        function drawBarChart() {
-            const container = d3.select("#bar-chart");
-            container.html("");
-            
-            const margin = {top: 20, right: 100, bottom: 30, left: 150};
-            const width = (container.node().clientWidth || 400) - margin.left - margin.right;
-            const height = 350 - margin.top - margin.bottom;
-            
-            const svg = container.append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
-            
-            // Get top 10 neighborhoods
-            const data = state.data.rankings.slice(0, 10);
-            
-            // Scales
-            const y = d3.scaleBand()
-                .domain(data.map(d => d.neighborhood))
-                .range([0, height])
-                .padding(0.2);
-            
-            const x = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.median_value)])
-                .range([0, width]);
-            
-            // Y axis
-            svg.append("g")
-                .call(d3.axisLeft(y))
-                .selectAll("text")
-                .style("font-size", "10px");
-            
-            // X axis
-            svg.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
-            
-            // Bars
-            svg.selectAll(".bar")
-                .data(data)
-                .join("rect")
-                .attr("class", d => `bar ${d.neighborhood === state.selectedNeighborhood ? 'highlighted' : ''}`)
-                .attr("y", d => y(d.neighborhood))
-                .attr("x", 0)
-                .attr("width", d => x(d.median_value))
-                .attr("height", y.bandwidth())
-                .attr("fill", d => d.neighborhood === 'Inner Richmond' ? '#e74c3c' : priceColorScale(d.median_value))
-                .on("mouseover", function(event, d) {
-                    showTooltip(event, `<strong>${d.neighborhood}</strong><br>Median: $${d.median_value.toLocaleString()}<br>Properties: ${d.count}`);
-                })
-                .on("mouseout", hideTooltip)
-                .on("click", function(event, d) {
-                    selectNeighborhood(d.neighborhood);
-                });
-            
-            // Value labels
-            svg.selectAll(".bar-label")
-                .data(data)
-                .join("text")
-                .attr("class", "bar-label")
-                .attr("y", d => y(d.neighborhood) + y.bandwidth() / 2)
-                .attr("x", d => x(d.median_value) + 5)
-                .attr("dy", "0.35em")
-                .attr("font-size", "9px")
-                .text(d => "$" + d3.format(".2s")(d.median_value));
-        }
+        const width = container.node().clientWidth || 500;
+        const height = 300;
         
-        // ============================================
-        // LINE CHART
-        // ============================================
-        function drawLineChart() {
-            const container = d3.select("#line-chart");
-            container.html("");
+        const svg = container.append("svg").attr("width", width).attr("height", height);
+        
+        const data = DATA.allNeighborhoods[state.year];
+        const cols = 6;
+        const rows = Math.ceil(data.length / cols);
+        const tileW = (width - 30) / cols;
+        const tileH = (height - 20) / rows;
+        
+        const g = svg.append("g").attr("transform", "translate(15, 10)");
+        
+        // Draw tiles
+        const tiles = g.selectAll(".tile")
+            .data(data)
+            .join("rect")
+            .attr("class", "tile")
+            .attr("x", (d, i) => (i % cols) * tileW + 2)
+            .attr("y", (d, i) => Math.floor(i / cols) * tileH + 2)
+            .attr("width", tileW - 4)
+            .attr("height", tileH - 4)
+            .attr("rx", 4)
+            .attr("fill", d => priceColorScale(d.median_value))
+            .attr("stroke", d => d.neighborhood === state.selectedNeighborhood ? "#e74c3c" : "#fff")
+            .attr("stroke-width", d => d.neighborhood === state.selectedNeighborhood ? 3 : 1)
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("stroke", "#333").attr("stroke-width", 2);
+                showTooltip(event, "<b>" + d.neighborhood + "</b><br>Median: $" + d.median_value.toLocaleString());
+            })
+            .on("mouseout", function(event, d) {
+                d3.select(this)
+                    .attr("stroke", d.neighborhood === state.selectedNeighborhood ? "#e74c3c" : "#fff")
+                    .attr("stroke-width", d.neighborhood === state.selectedNeighborhood ? 3 : 1);
+                hideTooltip();
+            })
+            .on("click", function(event, d) {
+                state.selectedNeighborhood = (state.selectedNeighborhood === d.neighborhood) ? null : d.neighborhood;
+                updateAll();
+            });
+        
+        // Labels
+        g.selectAll(".tile-label")
+            .data(data)
+            .join("text")
+            .attr("class", "tile-label")
+            .attr("x", (d, i) => (i % cols) * tileW + tileW / 2)
+            .attr("y", (d, i) => Math.floor(i / cols) * tileH + tileH / 2 + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", d => d.median_value > 1000000 ? "#fff" : "#333")
+            .text(d => d.neighborhood.length > 10 ? d.neighborhood.substring(0, 9) + "…" : d.neighborhood);
+        
+        // Legend
+        const legend = d3.select("#map-legend").html("");
+        [{label: "< $500K", val: 450000}, {label: "$800K", val: 800000}, 
+         {label: "$1.2M", val: 1200000}, {label: "> $1.5M", val: 1700000}].forEach(item => {
+            const div = legend.append("div").attr("class", "legend-item");
+            div.append("div").attr("class", "legend-color").style("background", priceColorScale(item.val));
+            div.append("span").text(item.label);
+        });
+    }
+    
+    // ============================================
+    // BAR CHART - Updates with year
+    // ============================================
+    function drawBarChart() {
+        const container = d3.select("#bar-chart");
+        container.html("");
+        
+        const margin = {top: 10, right: 85, bottom: 25, left: 130};
+        const width = (container.node().clientWidth || 500) - margin.left - margin.right;
+        const height = 300 - margin.top - margin.bottom;
+        
+        const svg = container.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        const data = DATA.rankings[state.year];
+        
+        const y = d3.scaleBand().domain(data.map(d => d.neighborhood)).range([0, height]).padding(0.15);
+        const x = d3.scaleLinear().domain([0, d3.max(data, d => d.median_value) * 1.05]).range([0, width]);
+        
+        svg.append("g").call(d3.axisLeft(y)).selectAll("text").style("font-size", "11px");
+        svg.append("g").attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(4).tickFormat(d => "$" + d3.format(".2s")(d)));
+        
+        svg.selectAll(".bar")
+            .data(data)
+            .join("rect")
+            .attr("class", "bar")
+            .attr("y", d => y(d.neighborhood))
+            .attr("x", 0)
+            .attr("width", d => x(d.median_value))
+            .attr("height", y.bandwidth())
+            .attr("fill", d => {
+                if (d.neighborhood === state.selectedNeighborhood) return "#e74c3c";
+                if (d.neighborhood === "Inner Richmond") return "#27ae60";
+                return priceColorScale(d.median_value);
+            })
+            .attr("cursor", "pointer")
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("opacity", 0.8);
+                showTooltip(event, "<b>" + d.neighborhood + "</b><br>Median: $" + d.median_value.toLocaleString() + "<br>Properties: " + d.count);
+            })
+            .on("mouseout", function() { d3.select(this).attr("opacity", 1); hideTooltip(); })
+            .on("click", function(event, d) {
+                state.selectedNeighborhood = (state.selectedNeighborhood === d.neighborhood) ? null : d.neighborhood;
+                updateAll();
+            });
+        
+        svg.selectAll(".bar-label")
+            .data(data)
+            .join("text")
+            .attr("y", d => y(d.neighborhood) + y.bandwidth() / 2 + 4)
+            .attr("x", d => x(d.median_value) + 5)
+            .attr("font-size", "10px")
+            .text(d => "$" + d3.format(".2s")(d.median_value));
+    }
+    
+    // ============================================
+    // LINE CHART - With year indicator
+    // ============================================
+    function drawLineChart() {
+        const container = d3.select("#line-chart");
+        container.html("");
+        
+        const margin = {top: 20, right: 110, bottom: 40, left: 65};
+        const width = (container.node().clientWidth || 500) - margin.left - margin.right;
+        const height = 280 - margin.top - margin.bottom;
+        
+        const svg = container.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        const data = DATA.timeSeries;
+        
+        const x = d3.scaleLinear().domain([2022, 2024]).range([0, width]);
+        const y = d3.scaleLinear().domain([0, 1550000]).range([height, 0]);
+        
+        svg.append("g").attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickFormat(d3.format("d")).tickValues([2022, 2023, 2024]));
+        svg.append("g").call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
+        
+        // Axis labels
+        svg.append("text").attr("x", width / 2).attr("y", height + 35)
+            .attr("text-anchor", "middle").attr("font-size", "12px").text("Year");
+        svg.append("text").attr("transform", "rotate(-90)").attr("x", -height / 2).attr("y", -50)
+            .attr("text-anchor", "middle").attr("font-size", "12px").text("Median Value");
+        
+        // YEAR INDICATOR LINE
+        svg.append("line")
+            .attr("class", "year-indicator")
+            .attr("x1", x(state.year))
+            .attr("x2", x(state.year))
+            .attr("y1", 0)
+            .attr("y2", height);
+        
+        // Year indicator label
+        svg.append("text")
+            .attr("x", x(state.year))
+            .attr("y", -8)
+            .attr("text-anchor", "middle")
+            .attr("fill", "#e74c3c")
+            .attr("font-size", "11px")
+            .attr("font-weight", "bold")
+            .text(state.year);
+        
+        const line = d3.line().x(d => x(d.year)).y(d => y(d.value));
+        
+        const series = [
+            {key: "pacific_heights", color: "#3498db", label: "Pacific Heights"},
+            {key: "inner_richmond", color: "#27ae60", label: "Inner Richmond"},
+            {key: "mission", color: "#9b59b6", label: "Mission"},
+            {key: "citywide", color: "#7f8c8d", label: "Citywide", dash: true}
+        ];
+        
+        series.forEach(s => {
+            const lineData = data.map(d => ({year: d.year, value: d[s.key]}));
             
-            const margin = {top: 20, right: 120, bottom: 40, left: 70};
-            const width = (container.node().clientWidth || 400) - margin.left - margin.right;
-            const height = 300 - margin.top - margin.bottom;
-            
-            const svg = container.append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
-            
-            const data = state.data.timeSeries;
-            if (!data || data.length === 0) return;
-            
-            // Scales
-            const x = d3.scaleLinear()
-                .domain(d3.extent(data, d => d.year))
-                .range([0, width]);
-            
-            const maxVal = d3.max(data, d => Math.max(d.citywide || 0, d.pacific_heights || 0, d.inner_richmond || 0));
-            const y = d3.scaleLinear()
-                .domain([0, maxVal * 1.1])
-                .range([height, 0]);
-            
-            // Axes
-            svg.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(data.length));
-            
-            svg.append("g")
-                .call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
-            
-            // Line generator
-            const line = d3.line()
-                .defined(d => d !== undefined)
-                .x(d => x(d.year))
-                .y(d => y(d.value));
-            
-            // Draw citywide line (dashed)
-            const citywideData = data.filter(d => d.citywide).map(d => ({year: d.year, value: d.citywide}));
             svg.append("path")
-                .datum(citywideData)
-                .attr("class", "line citywide")
+                .datum(lineData)
+                .attr("fill", "none")
+                .attr("stroke", s.color)
+                .attr("stroke-width", 2.5)
+                .attr("stroke-dasharray", s.dash ? "6,4" : "none")
                 .attr("d", line);
             
-            // Draw Pacific Heights line
-            const phData = data.filter(d => d.pacific_heights).map(d => ({year: d.year, value: d.pacific_heights}));
-            if (phData.length > 0) {
-                svg.append("path")
-                    .datum(phData)
-                    .attr("class", "line")
-                    .attr("d", line)
-                    .attr("stroke", "#3498db");
-            }
-            
-            // Draw Inner Richmond line
-            const irData = data.filter(d => d.inner_richmond).map(d => ({year: d.year, value: d.inner_richmond}));
-            if (irData.length > 0) {
-                svg.append("path")
-                    .datum(irData)
-                    .attr("class", "line selected-hood")
-                    .attr("d", line);
-            }
-            
-            // Add points
-            svg.selectAll(".point-citywide")
-                .data(citywideData)
+            svg.selectAll(".point-" + s.key)
+                .data(lineData)
                 .join("circle")
                 .attr("cx", d => x(d.year))
                 .attr("cy", d => y(d.value))
-                .attr("r", 4)
-                .attr("fill", "#7f8c8d");
-            
-            svg.selectAll(".point-ph")
-                .data(phData)
-                .join("circle")
-                .attr("cx", d => x(d.year))
-                .attr("cy", d => y(d.value))
-                .attr("r", 4)
-                .attr("fill", "#3498db");
-            
-            svg.selectAll(".point-ir")
-                .data(irData)
-                .join("circle")
-                .attr("cx", d => x(d.year))
-                .attr("cy", d => y(d.value))
-                .attr("r", 4)
-                .attr("fill", "#e74c3c");
-            
-            // Legend
-            const legend = d3.select("#line-legend");
-            legend.html("");
-            
-            [
-                {label: "Citywide Median", color: "#7f8c8d", dash: true},
-                {label: "Pacific Heights", color: "#3498db", dash: false},
-                {label: "Inner Richmond", color: "#e74c3c", dash: false}
-            ].forEach(item => {
-                const div = legend.append("div").attr("class", "legend-item");
-                div.append("div")
-                    .attr("class", "legend-color")
-                    .style("background", item.dash ? `repeating-linear-gradient(90deg, ${item.color}, ${item.color} 5px, transparent 5px, transparent 10px)` : item.color);
-                div.append("span").text(item.label);
-            });
-        }
-        
-        // ============================================
-        // SCATTER PLOT
-        // ============================================
-        function drawScatterPlot() {
-            const container = d3.select("#scatter-plot");
-            container.html("");
-            
-            const margin = {top: 20, right: 30, bottom: 50, left: 70};
-            const width = (container.node().clientWidth || 400) - margin.left - margin.right;
-            const height = 300 - margin.top - margin.bottom;
-            
-            const svg = container.append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
-            
-            let data = state.data.scatter || [];
-            
-            // Filter by property type
-            if (state.propertyType !== 'All') {
-                data = data.filter(d => d.property_type === state.propertyType);
-            }
-            
-            // Filter by selected neighborhood
-            if (state.selectedNeighborhood) {
-                data = data.filter(d => d.neighborhood === state.selectedNeighborhood);
-            }
-            
-            // Limit for performance
-            data = data.slice(0, 500);
-            
-            if (data.length === 0) {
-                svg.append("text")
-                    .attr("x", width / 2)
-                    .attr("y", height / 2)
-                    .attr("text-anchor", "middle")
-                    .text("No data available for current filters");
-                return;
-            }
-            
-            // Scales
-            const x = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.sqft) * 1.1])
-                .range([0, width]);
-            
-            const y = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.value) * 1.1])
-                .range([height, 0]);
-            
-            // Axes
-            svg.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).ticks(5));
-            
-            svg.append("text")
-                .attr("x", width / 2)
-                .attr("y", height + 40)
-                .attr("text-anchor", "middle")
-                .attr("font-size", "12px")
-                .text("Square Footage");
-            
-            svg.append("g")
-                .call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
-            
-            svg.append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("x", -height / 2)
-                .attr("y", -55)
-                .attr("text-anchor", "middle")
-                .attr("font-size", "12px")
-                .text("Assessed Value");
-            
-            // Points
-            svg.selectAll(".scatter-point")
-                .data(data)
-                .join("circle")
-                .attr("class", "scatter-point")
-                .attr("cx", d => x(d.sqft))
-                .attr("cy", d => y(d.value))
-                .attr("r", 4)
-                .attr("fill", d => typeColors[d.property_type] || typeColors['Other'])
-                .attr("opacity", 0.7)
+                .attr("r", d => d.year === state.year ? 7 : 4)
+                .attr("fill", s.color)
+                .attr("stroke", d => d.year === state.year ? "#fff" : "none")
+                .attr("stroke-width", 2)
                 .on("mouseover", function(event, d) {
-                    showTooltip(event, `
-                        <strong>${d.neighborhood}</strong><br>
-                        Value: $${d.value.toLocaleString()}<br>
-                        Size: ${d.sqft.toLocaleString()} sqft<br>
-                        Type: ${d.property_type}<br>
-                        Beds: ${d.bedrooms || 'N/A'}
-                    `);
+                    showTooltip(event, "<b>" + s.label + "</b><br>" + d.year + ": $" + d.value.toLocaleString());
                 })
                 .on("mouseout", hideTooltip);
             
-            // Legend
-            const legend = d3.select("#scatter-legend");
-            legend.html("");
-            
-            Object.entries(typeColors).forEach(([type, color]) => {
-                if (type === 'Other' || type === 'Condo') return;
-                const div = legend.append("div").attr("class", "legend-item");
-                div.append("div").attr("class", "legend-color").style("background", color);
-                div.append("span").text(type);
+            // End labels
+            const lastPoint = lineData[lineData.length - 1];
+            svg.append("text")
+                .attr("x", x(lastPoint.year) + 8)
+                .attr("y", y(lastPoint.value) + 4)
+                .attr("font-size", "10px")
+                .attr("fill", s.color)
+                .text(s.label.split(" ")[0]);
+        });
+        
+        // Legend
+        const legend = d3.select("#line-legend").html("");
+        series.forEach(s => {
+            const div = legend.append("div").attr("class", "legend-item");
+            const colorDiv = div.append("div").attr("class", "legend-color");
+            if (s.dash) {
+                colorDiv.style("background", "repeating-linear-gradient(90deg, " + s.color + ", " + s.color + " 4px, transparent 4px, transparent 8px)");
+            } else {
+                colorDiv.style("background", s.color);
+            }
+            div.append("span").text(s.label);
+        });
+    }
+    
+    // ============================================
+    // SCATTER PLOT - Updates with year
+    // ============================================
+    function drawScatterPlot() {
+        const container = d3.select("#scatter-plot");
+        container.html("");
+        
+        const margin = {top: 20, right: 25, bottom: 45, left: 65};
+        const width = (container.node().clientWidth || 500) - margin.left - margin.right;
+        const height = 280 - margin.top - margin.bottom;
+        
+        const svg = container.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        let data = DATA.scatter[state.year] || DATA.scatter[2024];
+        
+        if (state.propertyType !== 'All') {
+            data = data.filter(d => d.property_type === state.propertyType);
+        }
+        if (state.selectedNeighborhood) {
+            data = data.filter(d => d.neighborhood === state.selectedNeighborhood);
+        }
+        
+        if (data.length === 0) {
+            svg.append("text").attr("x", width / 2).attr("y", height / 2)
+                .attr("text-anchor", "middle").attr("fill", "#999")
+                .text("No data for current filters");
+            return;
+        }
+        
+        const x = d3.scaleLinear().domain([0, d3.max(data, d => d.sqft) * 1.05]).range([0, width]);
+        const y = d3.scaleLinear().domain([0, d3.max(data, d => d.value) * 1.05]).range([height, 0]);
+        
+        svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).ticks(5));
+        svg.append("g").call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
+        
+        svg.append("text").attr("x", width / 2).attr("y", height + 38)
+            .attr("text-anchor", "middle").attr("font-size", "12px").text("Square Footage");
+        svg.append("text").attr("transform", "rotate(-90)").attr("x", -height / 2).attr("y", -50)
+            .attr("text-anchor", "middle").attr("font-size", "12px").text("Assessed Value");
+        
+        svg.selectAll(".point")
+            .data(data)
+            .join("circle")
+            .attr("cx", d => x(d.sqft))
+            .attr("cy", d => y(d.value))
+            .attr("r", 5)
+            .attr("fill", d => typeColors[d.property_type])
+            .attr("opacity", 0.6)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 0.5)
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("r", 8).attr("opacity", 1);
+                showTooltip(event, "<b>" + d.neighborhood + "</b><br>$" + d.value.toLocaleString() + "<br>" + d.sqft.toLocaleString() + " sqft<br>" + d.property_type);
+            })
+            .on("mouseout", function() {
+                d3.select(this).attr("r", 5).attr("opacity", 0.6);
+                hideTooltip();
             });
-        }
         
-        // ============================================
-        // UPDATE FUNCTIONS
-        // ============================================
-        function updateAllCharts() {
-            updateStats();
-            drawBarChart();
-            drawScatterPlot();
-        }
-        
-        function updateStats() {
-            const summary = state.data.summary;
-            document.getElementById('stat-median').textContent = '$' + (summary.citywide_median || 848081).toLocaleString();
-            document.getElementById('stat-properties').textContent = (summary.total_properties || 18766).toLocaleString();
-            document.getElementById('stat-neighborhoods').textContent = summary.neighborhoods?.length || 28;
-            document.getElementById('stat-selected').textContent = state.selectedNeighborhood || '-';
-        }
-        
-        function selectNeighborhood(name) {
-            state.selectedNeighborhood = (state.selectedNeighborhood === name) ? null : name;
-            updateAllCharts();
-            
-            // Highlight in bar chart
-            d3.selectAll(".bar")
-                .classed("highlighted", d => d.neighborhood === state.selectedNeighborhood);
-            
-            // Highlight in map
-            d3.selectAll(".neighborhood")
-                .classed("selected", d => d.neighborhood === state.selectedNeighborhood);
-        }
-        
-        // ============================================
-        // TOOLTIP FUNCTIONS
-        // ============================================
-        function showTooltip(event, html) {
-            tooltip
-                .style("display", "block")
-                .style("left", (event.pageX + 15) + "px")
-                .style("top", (event.pageY - 10) + "px")
-                .html(html);
-        }
-        
-        function hideTooltip() {
-            tooltip.style("display", "none");
-        }
-        
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-        document.getElementById('year-slider').addEventListener('input', function(e) {
-            // Snap to available years
-            const value = parseInt(e.target.value);
-            const closest = availableYears.reduce((prev, curr) => 
-                Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev
-            );
-            state.year = closest;
-            document.getElementById('year-display').textContent = closest;
-            updateAllCharts();
+        // Legend
+        const legend = d3.select("#scatter-legend").html("");
+        Object.entries(typeColors).forEach(([type, color]) => {
+            const div = legend.append("div").attr("class", "legend-item");
+            div.append("div").attr("class", "legend-color").style("background", color);
+            div.append("span").text(type);
         });
+    }
+    
+    // ============================================
+    // UPDATE ALL
+    // ============================================
+    function updateAll() {
+        const yearData = DATA.summary[state.year];
+        document.getElementById('stat-year').textContent = state.year;
+        document.getElementById('stat-median').textContent = '$' + yearData.citywide_median.toLocaleString();
+        document.getElementById('stat-properties').textContent = yearData.total_properties.toLocaleString();
+        document.getElementById('stat-selected').textContent = state.selectedNeighborhood || 'None';
         
-        document.querySelectorAll('.property-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.property-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                state.propertyType = this.dataset.type;
-                updateAllCharts();
-            });
+        drawChoropleth();
+        drawBarChart();
+        drawLineChart();
+        drawScatterPlot();
+    }
+    
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    document.getElementById('year-slider').addEventListener('input', function(e) {
+        state.year = parseInt(e.target.value);
+        document.getElementById('year-display').textContent = state.year;
+        updateAll();
+    });
+    
+    document.querySelectorAll('.property-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.property-btn').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            state.propertyType = this.getAttribute('data-type');
+            updateAll();
         });
-        
-        document.getElementById('reset-btn').addEventListener('click', function() {
-            state.year = 2024;
-            state.propertyType = 'All';
-            state.selectedNeighborhood = null;
-            
-            document.getElementById('year-slider').value = 2024;
-            document.getElementById('year-display').textContent = '2024';
-            document.querySelectorAll('.property-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('[data-type="All"]').classList.add('active');
-            
-            d3.selectAll(".bar").classed("highlighted", false);
-            d3.selectAll(".neighborhood").classed("selected", false);
-            
-            updateAllCharts();
-        });
-        
-        // ============================================
-        // INITIALIZE
-        // ============================================
-        loadData();
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            initializeCharts();
-        });
+    });
+    
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        state = {year: 2024, propertyType: 'All', selectedNeighborhood: null};
+        document.getElementById('year-slider').value = 2024;
+        document.getElementById('year-display').textContent = '2024';
+        document.querySelectorAll('.property-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('[data-type="All"]').classList.add('active');
+        updateAll();
+    });
+    
+    // ============================================
+    // INIT
+    // ============================================
+    updateAll();
+    window.addEventListener('resize', updateAll);
     </script>
 </body>
 </html>
