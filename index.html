@@ -296,7 +296,7 @@
         
         const svg = container.append("svg").attr("width", width).attr("height", height);
         
-        const yearData = DATA.neighborhoods[state.year] || [];
+        const yearData = DATA.neighborhoods[String(state.year)] || [];
         const cols = 5;
         const rows = 2;
         const tileW = (width - 30) / cols;
@@ -366,7 +366,7 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        const yearData = DATA.neighborhoods[state.year] || [];
+        const yearData = DATA.neighborhoods[String(state.year)] || [];
         
         const y = d3.scaleBand().domain(yearData.map(d => d.neighborhood)).range([0, height]).padding(0.15);
         const maxVal = d3.max(yearData, d => d.median_value) || 1000000;
@@ -528,7 +528,7 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        let data = DATA.scatter[state.year] || [];
+        let data = DATA.scatter[String(state.year)] || [];
         
         if (state.propertyType !== 'All') {
             data = data.filter(d => d.property_type === state.propertyType);
@@ -584,8 +584,8 @@
     
     // update all
     function updateAll() {
-        const yearData = DATA.summary[state.year] || {citywide_median: 0, total_properties: 0};
-        const neighborhoodData = DATA.neighborhoods[state.year] || [];
+        const yearData = DATA.summary[String(state.year)] || {citywide_median: 0, total_properties: 0};
+        const neighborhoodData = DATA.neighborhoods[String(state.year)] || [];
         const statsInner = document.getElementById('stats-inner');
         
         document.getElementById('stat-year').textContent = state.year;
