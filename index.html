@@ -167,6 +167,7 @@
             <label>Year:</label>
             <input type="range" id="year-slider" class="year-slider" min="2007" max="2024" value="2024" step="1">
             <span id="year-display" class="year-display">2024</span>
+            <button class="property-btn" id="play-btn">▶ Play</button>
         </div>
         <div class="control-group">
             <label>Property Type:</label>
@@ -202,24 +203,24 @@
     
     <div class="dashboard">
         <div class="chart-container">
-            <h2>Feature 1: Neighborhood Price Map (Click to Select)</h2>
+            <h2>Neighborhood Price Map (Click to Select)</h2>
             <div id="choropleth"><div class="loading">Loading data...</div></div>
             <div class="legend" id="map-legend"></div>
         </div>
         
         <div class="chart-container">
-            <h2>Feature 3: Top 10 Neighborhoods by Median Price</h2>
+            <h2>Top 10 Neighborhoods by Median Price</h2>
             <div id="bar-chart"><div class="loading">Loading data...</div></div>
         </div>
         
         <div class="chart-container">
-            <h2>Feature 2: Price Trends Over Time (Red Line = Selected Year)</h2>
+            <h2>Price Trends Over Time (Red Line = Selected Year)</h2>
             <div id="line-chart"><div class="loading">Loading data...</div></div>
             <div class="legend" id="line-legend"></div>
         </div>
         
         <div class="chart-container">
-            <h2>Feature 5: Price vs. Square Footage</h2>
+            <h2>Price vs. Square Footage</h2>
             <div id="scatter-plot"><div class="loading">Loading data...</div></div>
             <div class="legend" id="scatter-legend"></div>
         </div>
