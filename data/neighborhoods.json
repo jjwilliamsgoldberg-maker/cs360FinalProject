@@ -1,0 +1,938 @@
+{
+  "2007": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 760033,
+      "count": 242
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 704526,
+      "count": 692
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 644932,
+      "count": 1540
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 565387,
+      "count": 1438
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 494952,
+      "count": 893
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 455347,
+      "count": 788
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 414303,
+      "count": 1625
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 398082,
+      "count": 1220
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 381455,
+      "count": 271
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 288343,
+      "count": 5672
+    }
+  ],
+  "2008": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 759324,
+      "count": 230
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 724380,
+      "count": 708
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 658130,
+      "count": 1604
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 624200,
+      "count": 1431
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 528602,
+      "count": 903
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 469752,
+      "count": 829
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 442851,
+      "count": 1215
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 427046,
+      "count": 1618
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 379536,
+      "count": 287
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 316179,
+      "count": 4174
+    }
+  ],
+  "2009": [
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 790172,
+      "count": 681
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 688870,
+      "count": 1602
+    },
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 681428,
+      "count": 231
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 658580,
+      "count": 1425
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 539539,
+      "count": 766
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 525039,
+      "count": 923
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 449345,
+      "count": 1681
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 433330,
+      "count": 1178
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 427322,
+      "count": 284
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 327110,
+      "count": 3913
+    }
+  ],
+  "2010": [
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 846952,
+      "count": 347
+    },
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 833609,
+      "count": 137
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 715948,
+      "count": 783
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 642003,
+      "count": 737
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 589072,
+      "count": 543
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 546525,
+      "count": 1603
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 498499,
+      "count": 1944
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 449431,
+      "count": 582
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 432663,
+      "count": 1091
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 327025,
+      "count": 6347
+    }
+  ],
+  "2011": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 872603,
+      "count": 188
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 812015,
+      "count": 342
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 734726,
+      "count": 789
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 677337,
+      "count": 738
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 603506,
+      "count": 740
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 573061,
+      "count": 1613
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 519882,
+      "count": 1886
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 471217,
+      "count": 562
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 449475,
+      "count": 1154
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 340703,
+      "count": 6191
+    }
+  ],
+  "2012": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 911597,
+      "count": 240
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 777079,
+      "count": 338
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 753504,
+      "count": 796
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 712672,
+      "count": 739
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 617941,
+      "count": 938
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 599597,
+      "count": 1623
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 541266,
+      "count": 1829
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 493003,
+      "count": 543
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 466287,
+      "count": 1218
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 354381,
+      "count": 6036
+    }
+  ],
+  "2013": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1024716,
+      "count": 246
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 848911,
+      "count": 792
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 796017,
+      "count": 761
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 781933,
+      "count": 332
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 672747,
+      "count": 1000
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 627209,
+      "count": 1585
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 559946,
+      "count": 1852
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 542122,
+      "count": 1202
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 509989,
+      "count": 580
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 361444,
+      "count": 6134
+    }
+  ],
+  "2015": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1030288,
+      "count": 240
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 964184,
+      "count": 706
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 865147,
+      "count": 1636
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 813778,
+      "count": 1553
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 691416,
+      "count": 828
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 683067,
+      "count": 1003
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 611585,
+      "count": 1677
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 554133,
+      "count": 1217
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 549894,
+      "count": 289
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 406523,
+      "count": 3601
+    }
+  ],
+  "2016": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1108631,
+      "count": 235
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1005528,
+      "count": 703
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 926856,
+      "count": 1632
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 882970,
+      "count": 1546
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 744760,
+      "count": 833
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 737997,
+      "count": 1016
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 641076,
+      "count": 1695
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 614496,
+      "count": 980
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 605646,
+      "count": 282
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 430839,
+      "count": 3483
+    }
+  ],
+  "2017": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1186975,
+      "count": 232
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1046872,
+      "count": 701
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 988565,
+      "count": 1630
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 952163,
+      "count": 1543
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 798105,
+      "count": 835
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 792927,
+      "count": 1023
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 674859,
+      "count": 862
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 670568,
+      "count": 1704
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 661399,
+      "count": 278
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 455156,
+      "count": 3424
+    }
+  ],
+  "2018": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1265319,
+      "count": 230
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1088217,
+      "count": 700
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1050275,
+      "count": 1628
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1021356,
+      "count": 1540
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 851450,
+      "count": 838
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 847857,
+      "count": 1030
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 735222,
+      "count": 744
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 717152,
+      "count": 275
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 700060,
+      "count": 1713
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 479473,
+      "count": 3366
+    }
+  ],
+  "2019": [
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1282397,
+      "count": 352
+    },
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1165604,
+      "count": 115
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1076863,
+      "count": 826
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1060094,
+      "count": 825
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 883719,
+      "count": 555
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 846081,
+      "count": 1687
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 800554,
+      "count": 1851
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 746556,
+      "count": 585
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 661749,
+      "count": 974
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 458453,
+      "count": 6075
+    }
+  ],
+  "2020": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1255397,
+      "count": 121
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1213918,
+      "count": 354
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1178219,
+      "count": 840
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1112142,
+      "count": 753
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 918778,
+      "count": 545
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 894321,
+      "count": 1888
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 889492,
+      "count": 1742
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 779361,
+      "count": 576
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 762204,
+      "count": 809
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 483236,
+      "count": 6152
+    }
+  ],
+  "2021": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1627099,
+      "count": 252
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1211998,
+      "count": 351
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1208854,
+      "count": 875
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1155437,
+      "count": 822
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 959315,
+      "count": 1048
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 958000,
+      "count": 1755
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 940947,
+      "count": 1345
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 832776,
+      "count": 579
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 796031,
+      "count": 1251
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 491648,
+      "count": 6085
+    }
+  ],
+  "2022": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1827844,
+      "count": 118
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1394396,
+      "count": 366
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1225380,
+      "count": 219
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1205144,
+      "count": 649
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 1101312,
+      "count": 328
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 1059495,
+      "count": 538
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 1013253,
+      "count": 873
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 890505,
+      "count": 279
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 765371,
+      "count": 590
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 511565,
+      "count": 2919
+    }
+  ],
+  "2023": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1839560,
+      "count": 119
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1503377,
+      "count": 353
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1408878,
+      "count": 702
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1334250,
+      "count": 829
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 1204056,
+      "count": 332
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 1078905,
+      "count": 536
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 1061002,
+      "count": 867
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 939701,
+      "count": 292
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 818850,
+      "count": 585
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 546964,
+      "count": 2967
+    }
+  ],
+  "2024": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1919297,
+      "count": 119
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 1508095,
+      "count": 370
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 1410222,
+      "count": 888
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 1351688,
+      "count": 834
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 1137194,
+      "count": 311
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 1092572,
+      "count": 533
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 1088875,
+      "count": 920
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 1004444,
+      "count": 297
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 980158,
+      "count": 641
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 564518,
+      "count": 2973
+    }
+  ],
+  "2014": [
+    {
+      "neighborhood": "Seacliff",
+      "median_value": 1027502,
+      "count": 243
+    },
+    {
+      "neighborhood": "Presidio Heights",
+      "median_value": 873058,
+      "count": 519
+    },
+    {
+      "neighborhood": "Pacific Heights",
+      "median_value": 857029,
+      "count": 1214
+    },
+    {
+      "neighborhood": "Marina",
+      "median_value": 804897,
+      "count": 1157
+    },
+    {
+      "neighborhood": "Haight Ashbury",
+      "median_value": 677907,
+      "count": 1001
+    },
+    {
+      "neighborhood": "Castro/Upper Market",
+      "median_value": 659312,
+      "count": 1206
+    },
+    {
+      "neighborhood": "Noe Valley",
+      "median_value": 585765,
+      "count": 1764
+    },
+    {
+      "neighborhood": "Inner Richmond",
+      "median_value": 548127,
+      "count": 1209
+    },
+    {
+      "neighborhood": "Twin Peaks",
+      "median_value": 529941,
+      "count": 434
+    },
+    {
+      "neighborhood": "Sunset/Parkside",
+      "median_value": 383983,
+      "count": 4867
+    }
+  ]
+}

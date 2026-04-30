@@ -1,0 +1,74 @@
+{
+  "2007": {
+    "citywide_median": 332225,
+    "total_properties": 43141
+  },
+  "2008": {
+    "citywide_median": 363488,
+    "total_properties": 42940
+  },
+  "2009": {
+    "citywide_median": 378993,
+    "total_properties": 43137
+  },
+  "2010": {
+    "citywide_median": 374110,
+    "total_properties": 44147
+  },
+  "2011": {
+    "citywide_median": 563136,
+    "total_properties": 4355
+  },
+  "2012": {
+    "citywide_median": 407181,
+    "total_properties": 44609
+  },
+  "2013": {
+    "citywide_median": 429340,
+    "total_properties": 44481
+  },
+  "2015": {
+    "citywide_median": 487129,
+    "total_properties": 43080
+  },
+  "2016": {
+    "citywide_median": 675164,
+    "total_properties": 9853
+  },
+  "2017": {
+    "citywide_median": 717088,
+    "total_properties": 9504
+  },
+  "2018": {
+    "citywide_median": 592546,
+    "total_properties": 43181
+  },
+  "2019": {
+    "citywide_median": 598992,
+    "total_properties": 44621
+  },
+  "2020": {
+    "citywide_median": 626706,
+    "total_properties": 45215
+  },
+  "2021": {
+    "citywide_median": 665518,
+    "total_properties": 45311
+  },
+  "2022": {
+    "citywide_median": 736422,
+    "total_properties": 18903
+  },
+  "2023": {
+    "citywide_median": 807484,
+    "total_properties": 19096
+  },
+  "2024": {
+    "citywide_median": 848081,
+    "total_properties": 18764
+  },
+  "2014": {
+    "citywide_median": 458234,
+    "total_properties": 43780
+  }
+}

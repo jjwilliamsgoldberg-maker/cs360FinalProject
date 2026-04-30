@@ -1,0 +1,128 @@
+[
+  {
+    "year": 2007,
+    "most_expensive": 760033,
+    "median_neighborhood": 398082,
+    "least_expensive": 288343,
+    "citywide": 332225
+  },
+  {
+    "year": 2008,
+    "most_expensive": 759324,
+    "median_neighborhood": 442851,
+    "least_expensive": 316179,
+    "citywide": 363488
+  },
+  {
+    "year": 2009,
+    "most_expensive": 681428,
+    "median_neighborhood": 433330,
+    "least_expensive": 327110,
+    "citywide": 378993
+  },
+  {
+    "year": 2010,
+    "most_expensive": 833609,
+    "median_neighborhood": 432663,
+    "least_expensive": 327025,
+    "citywide": 374110
+  },
+  {
+    "year": 2011,
+    "most_expensive": 872603,
+    "median_neighborhood": 449475,
+    "least_expensive": 340703,
+    "citywide": 563136
+  },
+  {
+    "year": 2012,
+    "most_expensive": 911597,
+    "median_neighborhood": 466287,
+    "least_expensive": 354381,
+    "citywide": 407181
+  },
+  {
+    "year": 2013,
+    "most_expensive": 1024716,
+    "median_neighborhood": 542122,
+    "least_expensive": 361444,
+    "citywide": 429340
+  },
+  {
+    "year": 2014,
+    "most_expensive": 1027502,
+    "median_neighborhood": 548127,
+    "least_expensive": 383983,
+    "citywide": 458234
+  },
+  {
+    "year": 2015,
+    "most_expensive": 1030288,
+    "median_neighborhood": 554133,
+    "least_expensive": 406523,
+    "citywide": 487129
+  },
+  {
+    "year": 2016,
+    "most_expensive": null,
+    "median_neighborhood": null,
+    "least_expensive": null,
+    "citywide": 675164
+  },
+  {
+    "year": 2017,
+    "most_expensive": null,
+    "median_neighborhood": null,
+    "least_expensive": null,
+    "citywide": 717088
+  },
+  {
+    "year": 2018,
+    "most_expensive": 1265319,
+    "median_neighborhood": 735222,
+    "least_expensive": 479473,
+    "citywide": 592546
+  },
+  {
+    "year": 2019,
+    "most_expensive": 1165604,
+    "median_neighborhood": 661749,
+    "least_expensive": 458453,
+    "citywide": 598992
+  },
+  {
+    "year": 2020,
+    "most_expensive": 1255397,
+    "median_neighborhood": 762204,
+    "least_expensive": 483236,
+    "citywide": 626706
+  },
+  {
+    "year": 2021,
+    "most_expensive": 1627099,
+    "median_neighborhood": 796031,
+    "least_expensive": 491648,
+    "citywide": 665518
+  },
+  {
+    "year": 2022,
+    "most_expensive": 1827844,
+    "median_neighborhood": 765371,
+    "least_expensive": 511565,
+    "citywide": 736422
+  },
+  {
+    "year": 2023,
+    "most_expensive": 1839560,
+    "median_neighborhood": 818850,
+    "least_expensive": 546964,
+    "citywide": 807484
+  },
+  {
+    "year": 2024,
+    "most_expensive": 1919297,
+    "median_neighborhood": 980158,
+    "least_expensive": 564518,
+    "citywide": 848081
+  }
+]
