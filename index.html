@@ -232,9 +232,7 @@
     <div class="tooltip" id="tooltip" style="display: none;"></div>
     
     <script>
-  
-    // Loading data from external JSON Files
-  
+    // load data from external json files
     
     let DATA = {
         neighborhoods: {},
@@ -268,8 +266,7 @@
         });
     });
     
-   //State
-
+    // state
     let state = {
         year: 2024,
         propertyType: 'All',
@@ -280,9 +277,7 @@
     const priceColorScale = d3.scaleSequential().domain([250000, 2000000]).interpolator(d3.interpolateBlues);
     const typeColors = {'Single Family': '#3498db', 'Multi-Family': '#e74c3c'};
     
-    
-    // Tooltip
-    
+    // tooltip
     function showTooltip(event, html) {
         tooltip.style("display", "block")
             .style("left", (event.pageX + 12) + "px")
@@ -291,9 +286,7 @@
     }
     function hideTooltip() { tooltip.style("display", "none"); }
     
-    
-  
-    // Choropleth
+    // choropleth
     function drawChoropleth() {
         const container = d3.select("#choropleth");
         container.html("");
@@ -358,9 +351,7 @@
         });
     }
     
-
-    // Bar chart
-  
+    // bar chart
     function drawBarChart() {
         const container = d3.select("#bar-chart");
         container.html("");
@@ -417,9 +408,7 @@
             .text(d => "$" + d3.format(".2s")(d.median_value));
     }
     
-    
-    // Line Chart
-   
+    // line chart
     function drawLineChart() {
         const container = d3.select("#line-chart");
         container.html("");
@@ -524,9 +513,7 @@
         });
     }
     
-    
-    // Scatter Plot
-    
+    // scatter plot
     function drawScatterPlot() {
         const container = d3.select("#scatter-plot");
         container.html("");
@@ -595,9 +582,7 @@
         });
     }
     
-    
-    // Update All
-    
+    // update all
     function updateAll() {
         const yearData = DATA.summary[state.year] || {citywide_median: 0, total_properties: 0};
         const neighborhoodData = DATA.neighborhoods[state.year] || [];
@@ -630,9 +615,7 @@
         drawScatterPlot();
     }
     
-    
-    // Init Dashboard
-   
+    // initialize dashboard
     function initDashboard() {
         // Set up event listeners
         document.getElementById('year-slider').addEventListener('input', function(e) {
