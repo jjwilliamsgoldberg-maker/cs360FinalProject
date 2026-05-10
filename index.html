@@ -8,7 +8,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Georgia, serif; background: #f5f5f5; color: #333; }
-        
+
         .header {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
@@ -17,7 +17,113 @@
         }
         .header h1 { font-size: 1.8em; margin-bottom: 5px; }
         .header p { font-size: 1em; opacity: 0.9; }
-        
+
+        /* ─── STORY SECTION ─── */
+        .story-section {
+            background: white;
+            padding: 36px 30px 28px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+        .story-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .story-header h2 {
+            font-size: 1.45em;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+        .story-header p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        @media (max-width: 900px) {
+            .story-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .story-grid { grid-template-columns: 1fr; }
+        }
+        .snapshot-card {
+            background: #f9fafb;
+            border: 1px solid #e0e6ea;
+            border-radius: 10px;
+            padding: 18px 16px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .snapshot-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .snap-year-badge {
+            background: #2c3e50;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .snap-title {
+            font-size: 0.88em;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.35;
+        }
+        .snap-chart { width: 100%; }
+        .snap-caption {
+            font-size: 0.82em;
+            color: #555;
+            line-height: 1.6;
+            border-top: 1px solid #e0e6ea;
+            padding-top: 9px;
+            margin-top: 2px;
+        }
+        .snap-caption strong { color: #2c3e50; }
+        .snap-stat-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .snap-stat {
+            flex: 1;
+            min-width: 90px;
+            background: #ecf0f1;
+            border-radius: 6px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .snap-stat-val {
+            font-size: 1.05em;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .snap-stat-lbl {
+            font-size: 0.72em;
+            color: #7f8c8d;
+            margin-top: 1px;
+        }
+        .story-cta {
+            text-align: center;
+            margin-top: 22px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .story-cta span { color: #3498db; font-weight: bold; }
+
+        /* ─── EXISTING STYLES ─── */
         .controls {
             background: white;
             padding: 15px 30px;
@@ -63,7 +169,7 @@
             font-family: Georgia, serif;
         }
         .reset-btn:hover { background: #c0392b; }
-        
+
         .stats-panel {
             max-width: 1400px;
             margin: 20px auto 0;
@@ -86,7 +192,7 @@
         .stat-value { font-size: 1.4em; font-weight: bold; color: #3498db; }
         .stats-inner.selected .stat-value { color: #c0392b; }
         .stat-label { font-size: 0.85em; color: #7f8c8d; margin-top: 2px; }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -96,7 +202,7 @@
             margin: 0 auto;
         }
         @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
-        
+
         .chart-container {
             background: white;
             border-radius: 8px;
@@ -111,7 +217,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #ecf0f1;
         }
-        
+
         .tooltip {
             position: absolute;
             background: rgba(0,0,0,0.9);
@@ -123,7 +229,7 @@
             z-index: 1000;
             line-height: 1.4;
         }
-        
+
         .legend {
             display: flex;
             flex-wrap: wrap;
@@ -133,7 +239,7 @@
         }
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
         .legend-color { width: 16px; height: 16px; border-radius: 3px; }
-        
+
         .footer {
             text-align: center;
             padding: 20px;
@@ -141,13 +247,13 @@
             font-size: 0.9em;
         }
         .footer a { color: #3498db; }
-        
+
         .tile { cursor: pointer; transition: all 0.2s; }
         .tile:hover { filter: brightness(0.9); }
         .tile-label { pointer-events: none; font-size: 9px; font-weight: 500; }
-        
+
         .year-indicator { stroke: #e74c3c; stroke-width: 2; stroke-dasharray: 5,3; }
-        
+
         .loading {
             text-align: center;
             padding: 100px 20px;
@@ -161,12 +267,127 @@
         <h1>San Francisco Housing Explorer (2007-2024)</h1>
         <p>Interactive Dashboard | Julian Williams-Goldberg | CS360 Data Visualization</p>
     </div>
-    
+
+    <!-- ─── STORY SECTION ─── -->
+    <div class="story-section">
+        <div class="story-header">
+            <h2>How SF Housing Values Changed Over 17 Years</h2>
+            <p>Four key moments reveal the forces that reshaped San Francisco real estate — from the pre-crisis baseline through two boom cycles to today's stratified market.</p>
+        </div>
+
+        <div class="story-grid">
+
+            <!-- Snapshot 1: 2007 -->
+            <div class="snapshot-card">
+                <div class="snapshot-card-head">
+                    <div class="snap-year-badge">2007</div>
+                    <div class="snap-title">Pre-Crisis Baseline</div>
+                </div>
+                <div class="snap-stat-row">
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">$332K</div>
+                        <div class="snap-stat-lbl">Citywide Median</div>
+                    </div>
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">$760K</div>
+                        <div class="snap-stat-lbl">Seacliff Peak</div>
+                    </div>
+                </div>
+                <svg class="snap-chart" id="snap-2007" height="160"></svg>
+                <div class="snap-caption">
+                    SF entered 2007 with a <strong>clear two-tier market</strong>: a handful of waterfront and
+                    historic neighborhoods commanded prices twice the citywide median, while
+                    Sunset/Parkside remained relatively accessible at $288K. Only Seacliff broke $700K.
+                </div>
+            </div>
+
+            <!-- Snapshot 2: 2012 -->
+            <div class="snapshot-card">
+                <div class="snapshot-card-head">
+                    <div class="snap-year-badge">2012</div>
+                    <div class="snap-title">Post-Recession Recovery</div>
+                </div>
+                <div class="snap-stat-row">
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">$407K</div>
+                        <div class="snap-stat-lbl">Citywide Median</div>
+                    </div>
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">+22%</div>
+                        <div class="snap-stat-lbl">vs. 2007</div>
+                    </div>
+                </div>
+                <svg class="snap-chart" id="snap-2012" height="160"></svg>
+                <div class="snap-caption">
+                    While most US cities were still recovering, SF bounced back swiftly.
+                    <strong>Twitter, Airbnb, and Dropbox</strong> were filing for IPOs and hiring in the
+                    city. Values rose across all neighborhoods — Haight-Ashbury jumped 25% and the
+                    tech migration into the Mission was just beginning.
+                </div>
+            </div>
+
+            <!-- Snapshot 3: 2018 -->
+            <div class="snapshot-card">
+                <div class="snapshot-card-head">
+                    <div class="snap-year-badge">2018</div>
+                    <div class="snap-title">Tech Boom Peaks</div>
+                </div>
+                <div class="snap-stat-row">
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">$593K</div>
+                        <div class="snap-stat-lbl">Citywide Median</div>
+                    </div>
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">4 hoods</div>
+                        <div class="snap-stat-lbl">Above $1M</div>
+                    </div>
+                </div>
+                <svg class="snap-chart" id="snap-2018" height="160"></svg>
+                <div class="snap-caption">
+                    The decade-long tech expansion pushed <strong>four neighborhoods past $1 million</strong>
+                    for the first time. Seacliff, Presidio Heights, Pacific Heights, and Marina all
+                    crossed the threshold. Even Sunset/Parkside — historically the most
+                    working-class of the top 10 — had climbed 66% since 2007.
+                </div>
+            </div>
+
+            <!-- Snapshot 4: 2024 -->
+            <div class="snapshot-card">
+                <div class="snapshot-card-head">
+                    <div class="snap-year-badge">2024</div>
+                    <div class="snap-title">The New Normal</div>
+                </div>
+                <div class="snap-stat-row">
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">$848K</div>
+                        <div class="snap-stat-lbl">Citywide Median</div>
+                    </div>
+                    <div class="snap-stat">
+                        <div class="snap-stat-val">9 hoods</div>
+                        <div class="snap-stat-lbl">Above $1M</div>
+                    </div>
+                </div>
+                <svg class="snap-chart" id="snap-2024" height="160"></svg>
+                <div class="snap-caption">
+                    By 2024, <strong>nine of the ten tracked neighborhoods exceed $1 million</strong> in
+                    median assessed value — up from zero in 2007. Seacliff nearly tripled to $1.92M.
+                    Even the most affordable tracked neighborhood, Sunset/Parkside, now sits at
+                    $564K — higher than the citywide median was just six years earlier.
+                </div>
+            </div>
+
+        </div><!-- /story-grid -->
+
+        <div class="story-cta">Explore every year in detail with the interactive dashboard below <span>↓</span></div>
+    </div>
+    <!-- ─── END STORY SECTION ─── -->
+
     <div class="controls">
         <div class="control-group">
             <label>Year:</label>
             <input type="range" id="year-slider" class="year-slider" min="2007" max="2024" value="2024" step="1">
             <span id="year-display" class="year-display">2024</span>
+            <button class="property-btn" id="play-btn">▶ Play</button>
         </div>
         <div class="control-group">
             <label>Property Type:</label>
@@ -178,7 +399,7 @@
         </div>
         <button class="reset-btn" id="reset-btn">Reset View</button>
     </div>
-    
+
     <div class="stats-panel">
         <div class="stats-inner" id="stats-inner">
             <div class="stat-item">
@@ -199,49 +420,206 @@
             </div>
         </div>
     </div>
-    
+
     <div class="dashboard">
         <div class="chart-container">
             <h2>Neighborhood Price Map (Click to Select)</h2>
             <div id="choropleth"><div class="loading">Loading data...</div></div>
             <div class="legend" id="map-legend"></div>
         </div>
-        
+
         <div class="chart-container">
             <h2>Top 10 Neighborhoods by Median Price</h2>
             <div id="bar-chart"><div class="loading">Loading data...</div></div>
         </div>
-        
+
         <div class="chart-container">
             <h2>Price Trends Over Time (Red Line = Selected Year)</h2>
             <div id="line-chart"><div class="loading">Loading data...</div></div>
             <div class="legend" id="line-legend"></div>
         </div>
-        
+
         <div class="chart-container">
             <h2>Price vs. Square Footage</h2>
             <div id="scatter-plot"><div class="loading">Loading data...</div></div>
             <div class="legend" id="scatter-legend"></div>
         </div>
     </div>
-    
+
     <div class="footer">
         <p>Data: <a href="https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2" target="_blank">SF Assessor Historical Secured Property Tax Rolls</a> (564,338 residential records) | CS360 Final Project | University of San Francisco</p>
     </div>
-    
+
     <div class="tooltip" id="tooltip" style="display: none;"></div>
-    
+
     <script>
-    // load data from external json files
-    
+    // ─── STORY SNAPSHOTS ─────────────────────────────────────────────────
+    // Hard-coded from the processed dataset — no data-load dependency.
+
+    const SNAP_DATA = {
+        2007: [
+            {neighborhood: "Seacliff",             median_value: 760033},
+            {neighborhood: "Presidio Heights",     median_value: 704526},
+            {neighborhood: "Pacific Heights",      median_value: 644932},
+            {neighborhood: "Marina",               median_value: 565387},
+            {neighborhood: "Haight Ashbury",       median_value: 494952},
+            {neighborhood: "Castro/Upper Market",  median_value: 455347},
+            {neighborhood: "Noe Valley",           median_value: 414303},
+            {neighborhood: "Inner Richmond",       median_value: 398082},
+            {neighborhood: "Twin Peaks",           median_value: 381455},
+            {neighborhood: "Sunset/Parkside",      median_value: 288343}
+        ],
+        2012: [
+            {neighborhood: "Seacliff",             median_value: 911597},
+            {neighborhood: "Presidio Heights",     median_value: 777079},
+            {neighborhood: "Pacific Heights",      median_value: 753504},
+            {neighborhood: "Marina",               median_value: 712672},
+            {neighborhood: "Haight Ashbury",       median_value: 617941},
+            {neighborhood: "Castro/Upper Market",  median_value: 599597},
+            {neighborhood: "Noe Valley",           median_value: 541266},
+            {neighborhood: "Twin Peaks",           median_value: 493003},
+            {neighborhood: "Inner Richmond",       median_value: 466287},
+            {neighborhood: "Sunset/Parkside",      median_value: 354381}
+        ],
+        2018: [
+            {neighborhood: "Seacliff",             median_value: 1265319},
+            {neighborhood: "Presidio Heights",     median_value: 1088217},
+            {neighborhood: "Pacific Heights",      median_value: 1050275},
+            {neighborhood: "Marina",               median_value: 1021356},
+            {neighborhood: "Castro/Upper Market",  median_value: 851450},
+            {neighborhood: "Haight Ashbury",       median_value: 847857},
+            {neighborhood: "Inner Richmond",       median_value: 735222},
+            {neighborhood: "Twin Peaks",           median_value: 717152},
+            {neighborhood: "Noe Valley",           median_value: 700060},
+            {neighborhood: "Sunset/Parkside",      median_value: 479473}
+        ],
+        2024: [
+            {neighborhood: "Seacliff",             median_value: 1919297},
+            {neighborhood: "Presidio Heights",     median_value: 1508095},
+            {neighborhood: "Pacific Heights",      median_value: 1410222},
+            {neighborhood: "Marina",               median_value: 1351688},
+            {neighborhood: "Noe Valley",           median_value: 1137194},
+            {neighborhood: "Haight Ashbury",       median_value: 1092572},
+            {neighborhood: "Castro/Upper Market",  median_value: 1088875},
+            {neighborhood: "Twin Peaks",           median_value: 1004444},
+            {neighborhood: "Inner Richmond",       median_value: 980158},
+            {neighborhood: "Sunset/Parkside",      median_value: 564518}
+        ]
+    };
+
+    const SNAP_COLOR = d3.scaleSequential()
+        .domain([250000, 2000000])
+        .interpolator(d3.interpolateBlues);
+
+    const MILLION_LINE = 1000000;
+
+    function drawSnapshotChart(svgId, yearKey) {
+        const data = SNAP_DATA[yearKey];
+        const svgEl = document.getElementById(svgId);
+        const totalW = svgEl.parentElement.clientWidth - 32; // card padding
+        const W = Math.max(totalW, 160);
+        const H = 160;
+        const margin = {top: 4, right: 52, bottom: 16, left: 86};
+        const iW = W - margin.left - margin.right;
+        const iH = H - margin.top - margin.bottom;
+
+        const svg = d3.select("#" + svgId)
+            .attr("width", W)
+            .attr("height", H);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const maxVal = d3.max(data, d => d.median_value);
+
+        const y = d3.scaleBand()
+            .domain(data.map(d => d.neighborhood))
+            .range([0, iH])
+            .padding(0.18);
+
+        const x = d3.scaleLinear()
+            .domain([0, maxVal * 1.05])
+            .range([0, iW]);
+
+        // $1M reference line
+        if (MILLION_LINE < maxVal * 1.05) {
+            g.append("line")
+                .attr("x1", x(MILLION_LINE)).attr("x2", x(MILLION_LINE))
+                .attr("y1", 0).attr("y2", iH)
+                .attr("stroke", "#e74c3c")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "3,2")
+                .attr("opacity", 0.6);
+
+            g.append("text")
+                .attr("x", x(MILLION_LINE) + 2)
+                .attr("y", -2)
+                .attr("fill", "#e74c3c")
+                .attr("font-size", "8px")
+                .text("$1M");
+        }
+
+        // y-axis (neighborhood names)
+        g.append("g")
+            .call(d3.axisLeft(y).tickSize(0))
+            .selectAll("text")
+            .style("font-size", "8.5px")
+            .style("font-family", "Georgia, serif")
+            .attr("dx", "-3px")
+            .each(function(d) {
+                // truncate long names
+                const t = d.length > 14 ? d.substring(0, 13) + "…" : d;
+                d3.select(this).text(t);
+            });
+
+        g.select(".domain").remove();
+
+        // x-axis
+        g.append("g")
+            .attr("transform", `translate(0,${iH})`)
+            .call(d3.axisBottom(x).ticks(3).tickFormat(d => "$" + d3.format(".2s")(d)))
+            .selectAll("text")
+            .style("font-size", "8px");
+
+        // bars
+        g.selectAll(".snap-bar")
+            .data(data)
+            .join("rect")
+            .attr("class", "snap-bar")
+            .attr("y", d => y(d.neighborhood))
+            .attr("x", 0)
+            .attr("width", d => x(d.median_value))
+            .attr("height", y.bandwidth())
+            .attr("rx", 2)
+            .attr("fill", d => SNAP_COLOR(d.median_value));
+
+        // value labels
+        g.selectAll(".snap-val-label")
+            .data(data)
+            .join("text")
+            .attr("class", "snap-val-label")
+            .attr("y", d => y(d.neighborhood) + y.bandwidth() / 2 + 3)
+            .attr("x", d => x(d.median_value) + 3)
+            .attr("font-size", "7.5px")
+            .attr("fill", "#2c3e50")
+            .text(d => "$" + d3.format(".2s")(d.median_value));
+    }
+
+    // Draw all 4 snapshot charts immediately (no data load needed)
+    drawSnapshotChart("snap-2007", 2007);
+    drawSnapshotChart("snap-2012", 2012);
+    drawSnapshotChart("snap-2018", 2018);
+    drawSnapshotChart("snap-2024", 2024);
+
+    // ─── MAIN DASHBOARD ──────────────────────────────────────────────────
+
     let DATA = {
         neighborhoods: {},
         summary: {},
         timeSeries: [],
         scatter: {}
     };
-    
-    // Load all data files from data/ folder
+
     Promise.all([
         d3.json('data/neighborhoods.json'),
         d3.json('data/summary.json'),
@@ -252,11 +630,8 @@
         DATA.summary = summary;
         DATA.timeSeries = timeSeries;
         DATA.scatter = scatter;
-        
+
         console.log('Data loaded successfully!');
-        console.log('Years:', Object.keys(DATA.neighborhoods).sort());
-        
-        // Initialize the dashboard
         initDashboard();
     }).catch(function(error) {
         console.error('Error loading data:', error);
@@ -265,19 +640,18 @@
             el.style.color = '#e74c3c';
         });
     });
-    
+
     // state
     let state = {
         year: 2024,
         propertyType: 'All',
         selectedNeighborhood: null
     };
-    
+
     const tooltip = d3.select("#tooltip");
     const priceColorScale = d3.scaleSequential().domain([250000, 2000000]).interpolator(d3.interpolateBlues);
     const typeColors = {'Single Family': '#3498db', 'Multi-Family': '#e74c3c'};
-    
-    // tooltip
+
     function showTooltip(event, html) {
         tooltip.style("display", "block")
             .style("left", (event.pageX + 12) + "px")
@@ -285,25 +659,24 @@
             .html(html);
     }
     function hideTooltip() { tooltip.style("display", "none"); }
-    
-    // choropleth
+
     function drawChoropleth() {
         const container = d3.select("#choropleth");
         container.html("");
-        
+
         const width = container.node().clientWidth || 500;
         const height = 320;
-        
+
         const svg = container.append("svg").attr("width", width).attr("height", height);
-        
+
         const yearData = DATA.neighborhoods[String(state.year)] || [];
         const cols = 5;
         const rows = 2;
         const tileW = (width - 30) / cols;
         const tileH = (height - 40) / rows;
-        
+
         const g = svg.append("g").attr("transform", "translate(15, 15)");
-        
+
         g.selectAll(".tile")
             .data(yearData)
             .join("rect")
@@ -330,7 +703,7 @@
                 state.selectedNeighborhood = (state.selectedNeighborhood === d.neighborhood) ? null : d.neighborhood;
                 updateAll();
             });
-        
+
         g.selectAll(".tile-label")
             .data(yearData)
             .join("text")
@@ -341,41 +714,40 @@
             .attr("dy", "0.35em")
             .attr("fill", d => d.median_value > 700000 ? "#fff" : "#333")
             .text(d => d.neighborhood.length > 12 ? d.neighborhood.substring(0, 11) + "…" : d.neighborhood);
-        
+
         const legend = d3.select("#map-legend").html("");
-        [{label: "< $400K", val: 350000}, {label: "$700K", val: 700000}, 
+        [{label: "< $400K", val: 350000}, {label: "$700K", val: 700000},
          {label: "$1.2M", val: 1200000}, {label: "> $1.5M", val: 1800000}].forEach(item => {
             const div = legend.append("div").attr("class", "legend-item");
             div.append("div").attr("class", "legend-color").style("background", priceColorScale(item.val));
             div.append("span").text(item.label);
         });
     }
-    
-    // bar chart
+
     function drawBarChart() {
         const container = d3.select("#bar-chart");
         container.html("");
-        
+
         const margin = {top: 10, right: 85, bottom: 25, left: 130};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
         const height = 320 - margin.top - margin.bottom;
-        
+
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
         const yearData = DATA.neighborhoods[String(state.year)] || [];
-        
+
         const y = d3.scaleBand().domain(yearData.map(d => d.neighborhood)).range([0, height]).padding(0.15);
         const maxVal = d3.max(yearData, d => d.median_value) || 1000000;
         const x = d3.scaleLinear().domain([0, maxVal * 1.05]).range([0, width]);
-        
+
         svg.append("g").call(d3.axisLeft(y)).selectAll("text").style("font-size", "11px");
         svg.append("g").attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x).ticks(4).tickFormat(d => "$" + d3.format(".2s")(d)));
-        
+
         svg.selectAll(".bar")
             .data(yearData)
             .join("rect")
@@ -398,7 +770,7 @@
                 state.selectedNeighborhood = (state.selectedNeighborhood === d.neighborhood) ? null : d.neighborhood;
                 updateAll();
             });
-        
+
         svg.selectAll(".bar-label")
             .data(yearData)
             .join("text")
@@ -407,65 +779,59 @@
             .attr("font-size", "10px")
             .text(d => "$" + d3.format(".2s")(d.median_value));
     }
-    
-    // line chart
+
     function drawLineChart() {
         const container = d3.select("#line-chart");
         container.html("");
-        
+
         const margin = {top: 25, right: 100, bottom: 45, left: 65};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
-        
+
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
         const data = DATA.timeSeries;
         const maxPrice = d3.max(data, d => Math.max(d.most_expensive || 0, d.citywide || 0));
-        
+
         const x = d3.scaleLinear().domain([2007, 2024]).range([0, width]);
         const y = d3.scaleLinear().domain([0, maxPrice * 1.1]).range([height, 0]);
-        
+
         svg.append("g").attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(9));
         svg.append("g").call(d3.axisLeft(y).ticks(6).tickFormat(d => "$" + d3.format(".2s")(d)));
-        
+
         svg.append("text").attr("x", width / 2).attr("y", height + 38)
             .attr("text-anchor", "middle").attr("font-size", "12px").text("Year");
         svg.append("text").attr("transform", "rotate(-90)").attr("x", -height / 2).attr("y", -50)
             .attr("text-anchor", "middle").attr("font-size", "12px").text("Median Assessed Value");
-        
+
         svg.append("line")
             .attr("class", "year-indicator")
-            .attr("x1", x(state.year))
-            .attr("x2", x(state.year))
-            .attr("y1", 0)
-            .attr("y2", height);
-        
+            .attr("x1", x(state.year)).attr("x2", x(state.year))
+            .attr("y1", 0).attr("y2", height);
+
         svg.append("text")
-            .attr("x", x(state.year))
-            .attr("y", -10)
-            .attr("text-anchor", "middle")
-            .attr("fill", "#e74c3c")
-            .attr("font-size", "11px")
-            .attr("font-weight", "bold")
+            .attr("x", x(state.year)).attr("y", -10)
+            .attr("text-anchor", "middle").attr("fill", "#e74c3c")
+            .attr("font-size", "11px").attr("font-weight", "bold")
             .text(state.year);
-        
+
         const line = d3.line().x(d => x(d.year)).y(d => y(d.value)).defined(d => d.value != null).curve(d3.curveMonotoneX);
-        
+
         const series = [
-            {key: "most_expensive", color: "#2c3e50", label: "Seacliff (Most Expensive)"},
-            {key: "median_neighborhood", color: "#3498db", label: "Inner Richmond (Median)"},
-            {key: "least_expensive", color: "#27ae60", label: "Sunset/Parkside (Least)"},
-            {key: "citywide", color: "#95a5a6", label: "Citywide Average", dash: true}
+            {key: "most_expensive",     color: "#2c3e50", label: "Seacliff (Most Expensive)"},
+            {key: "median_neighborhood",color: "#3498db", label: "Inner Richmond (Median)"},
+            {key: "least_expensive",    color: "#27ae60", label: "Sunset/Parkside (Least)"},
+            {key: "citywide",           color: "#95a5a6", label: "Citywide Average", dash: true}
         ];
-        
+
         series.forEach(s => {
             const lineData = data.map(d => ({year: d.year, value: d[s.key]})).filter(d => d.value != null);
-            
+
             svg.append("path")
                 .datum(lineData)
                 .attr("fill", "none")
@@ -473,7 +839,7 @@
                 .attr("stroke-width", 2.5)
                 .attr("stroke-dasharray", s.dash ? "6,4" : "none")
                 .attr("d", line);
-            
+
             const currentYearData = lineData.find(d => d.year === state.year);
             if (currentYearData) {
                 svg.append("circle")
@@ -481,80 +847,77 @@
                     .attr("cy", y(currentYearData.value))
                     .attr("r", 6)
                     .attr("fill", s.color)
-                    .attr("stroke", "#fff")
-                    .attr("stroke-width", 2)
+                    .attr("stroke", "#fff").attr("stroke-width", 2)
                     .on("mouseover", function(event) {
                         showTooltip(event, "<b>" + s.label + "</b><br>" + state.year + ": $" + currentYearData.value.toLocaleString());
                     })
                     .on("mouseout", hideTooltip);
             }
-            
+
             const lastPoint = lineData[lineData.length - 1];
             if (lastPoint) {
                 svg.append("text")
                     .attr("x", x(lastPoint.year) + 5)
                     .attr("y", y(lastPoint.value) + 4)
-                    .attr("font-size", "9px")
-                    .attr("fill", s.color)
+                    .attr("font-size", "9px").attr("fill", s.color)
                     .text(s.label.split(" ")[0]);
             }
         });
-        
+
         const legend = d3.select("#line-legend").html("");
         series.forEach(s => {
             const div = legend.append("div").attr("class", "legend-item");
             const colorDiv = div.append("div").attr("class", "legend-color");
             if (s.dash) {
-                colorDiv.style("background", "repeating-linear-gradient(90deg, " + s.color + ", " + s.color + " 4px, transparent 4px, transparent 8px)");
+                colorDiv.style("background", "repeating-linear-gradient(90deg," + s.color + "," + s.color + " 4px,transparent 4px,transparent 8px)");
             } else {
                 colorDiv.style("background", s.color);
             }
             div.append("span").text(s.label);
         });
     }
-    
-    // scatter plot
+
     function drawScatterPlot() {
         const container = d3.select("#scatter-plot");
         container.html("");
-        
+
         const margin = {top: 20, right: 25, bottom: 45, left: 65};
         const width = (container.node().clientWidth || 500) - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
-        
+
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
         let data = DATA.scatter[String(state.year)] || [];
-        
+
         if (state.propertyType !== 'All') {
             data = data.filter(d => d.property_type === state.propertyType);
         }
         if (state.selectedNeighborhood) {
             data = data.filter(d => d.neighborhood === state.selectedNeighborhood);
         }
-        
+
         if (data.length === 0) {
             svg.append("text").attr("x", width / 2).attr("y", height / 2)
                 .attr("text-anchor", "middle").attr("fill", "#999")
                 .text("No data for current filters");
             return;
         }
-        
+
         const x = d3.scaleLinear().domain([0, d3.max(data, d => d.sqft) * 1.05]).range([0, width]);
         const y = d3.scaleLinear().domain([0, d3.max(data, d => d.value) * 1.05]).range([height, 0]);
-        
+
         svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).ticks(5));
         svg.append("g").call(d3.axisLeft(y).ticks(5).tickFormat(d => "$" + d3.format(".2s")(d)));
-        
+
         svg.append("text").attr("x", width / 2).attr("y", height + 38)
             .attr("text-anchor", "middle").attr("font-size", "12px").text("Square Footage");
         svg.append("text").attr("transform", "rotate(-90)").attr("x", -height / 2).attr("y", -50)
             .attr("text-anchor", "middle").attr("font-size", "12px").text("Assessed Value");
-        
+
         svg.selectAll(".point")
             .data(data)
             .join("circle")
@@ -563,8 +926,7 @@
             .attr("r", 5)
             .attr("fill", d => typeColors[d.property_type])
             .attr("opacity", 0.6)
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 0.5)
+            .attr("stroke", "#fff").attr("stroke-width", 0.5)
             .on("mouseover", function(event, d) {
                 d3.select(this).attr("r", 8).attr("opacity", 1);
                 showTooltip(event, "<b>" + d.neighborhood + "</b><br>$" + d.value.toLocaleString() + "<br>" + d.sqft.toLocaleString() + " sqft<br>" + d.property_type + (d.bedrooms > 0 ? "<br>" + d.bedrooms + " bed" : ""));
@@ -573,7 +935,7 @@
                 d3.select(this).attr("r", 5).attr("opacity", 0.6);
                 hideTooltip();
             });
-        
+
         const legend = d3.select("#scatter-legend").html("");
         Object.entries(typeColors).forEach(([type, color]) => {
             const div = legend.append("div").attr("class", "legend-item");
@@ -581,15 +943,14 @@
             div.append("span").text(type);
         });
     }
-    
-    // update all
+
     function updateAll() {
         const yearData = DATA.summary[String(state.year)] || {citywide_median: 0, total_properties: 0};
         const neighborhoodData = DATA.neighborhoods[String(state.year)] || [];
         const statsInner = document.getElementById('stats-inner');
-        
+
         document.getElementById('stat-year').textContent = state.year;
-        
+
         if (state.selectedNeighborhood) {
             const selectedHood = neighborhoodData.find(d => d.neighborhood === state.selectedNeighborhood);
             if (selectedHood) {
@@ -608,22 +969,20 @@
             document.getElementById('stat-selected').textContent = 'None';
             statsInner.classList.remove('selected');
         }
-        
+
         drawChoropleth();
         drawBarChart();
         drawLineChart();
         drawScatterPlot();
     }
-    
-    // initialize dashboard
+
     function initDashboard() {
-        // Set up event listeners
         document.getElementById('year-slider').addEventListener('input', function(e) {
             state.year = parseInt(e.target.value);
             document.getElementById('year-display').textContent = state.year;
             updateAll();
         });
-        
+
         document.querySelectorAll('.property-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.property-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -632,7 +991,7 @@
                 updateAll();
             });
         });
-        
+
         document.getElementById('reset-btn').addEventListener('click', function() {
             state = {year: 2024, propertyType: 'All', selectedNeighborhood: null};
             document.getElementById('year-slider').value = 2024;
@@ -641,11 +1000,8 @@
             document.querySelector('[data-type="All"]').classList.add('active');
             updateAll();
         });
-        
-        // Initial render
+
         updateAll();
-        
-        // Handle window resize
         window.addEventListener('resize', updateAll);
     }
     </script>
